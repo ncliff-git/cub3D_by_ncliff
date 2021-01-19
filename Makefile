@@ -2,7 +2,9 @@ NAME	= cub3D.a
 
 HEADER	= includes/
 
-SRC		=	main.c	
+SRC		=	main.c		\
+			key_check.c	\
+			movement.c	
 
 CC		= gcc
 
