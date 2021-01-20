@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 17:07:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/19 22:42:26 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 16:06:13 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,19 @@ int	main(void)
 	
 	img.player.posx = 240;
 	img.player.posy = 240;
-	img.player.prot = 1.57;
+	img.player.prot = 4.77;
+
+	img.flags.btn_dw = 0;
+	img.flags.btn_lt = 0;
+	img.flags.btn_rt = 0;
+	img.flags.btn_up = 0;
+	img.flags.rot = 0;
+	img.flags.spd = 0;
 
 	img.mlx = mlx_init();
 	img.mlx_win = mlx_new_window(img.mlx, screenWidth + 1, screenHeight + 1, "cub3D");
 	img.img.img = mlx_new_image(img.mlx, screenWidth + 1, screenHeight + 1);
 	img.img.addr = mlx_get_data_addr(img.img.img, &img.img.bits_per_pixel, &img.img.line_length, &img.img.endian);
-
 	img.img_pl.img = mlx_new_image(img.mlx, 3, 3);
 	img.img_pl.addr = mlx_get_data_addr(img.img_pl.img, &img.img_pl.bits_per_pixel, &img.img_pl.line_length, &img.img_pl.endian);
 

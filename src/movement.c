@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 22:22:46 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/19 23:13:32 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 16:39:15 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	move_up(t_data *img)
 	int pdx;
 	int pdy;
 
-	pdx = cos(img->player.prot) * 3;
-	pdy = sin(img->player.prot) * 3;
+	pdx = cos(img->player.prot) * (SPEED_MOVE + img->flags.spd);
+	pdy = sin(img->player.prot) * (SPEED_MOVE + img->flags.spd);
 	img->player.posy += pdy;
 	img->player.posx += pdx;
 	return (1);
@@ -42,8 +42,8 @@ int	move_dw(t_data *img)
 	int pdx;
 	int pdy;
 
-	pdx = cos(img->player.prot) * 3;
-	pdy = sin(img->player.prot) * 3;
+	pdx = cos(img->player.prot) * (SPEED_MOVE + img->flags.spd);
+	pdy = sin(img->player.prot) * (SPEED_MOVE + img->flags.spd);
 	img->player.posy -= pdy;
 	img->player.posx -= pdx;
 	return (1);
@@ -54,10 +54,10 @@ int	move_rt(t_data *img)
 	int pdx;
 	int pdy;
 
-	pdx = cos(img->player.prot) * 3;
-	pdy = sin(img->player.prot) * 3;
+	pdx = sin(img->player.prot) * (SPEED_MOVE + img->flags.spd);
+	pdy = cos(img->player.prot) * (SPEED_MOVE + img->flags.spd);
 	img->player.posy += pdy;
-	img->player.posx += pdx;
+	img->player.posx -= pdx;
 	return (1);
 }
 
@@ -66,9 +66,9 @@ int	move_lt(t_data *img)
 	int pdx;
 	int pdy;
 
-	pdx = cos(img->player.prot) * 3;
-	pdy = sin(img->player.prot) * 3;
-	img->player.posy += pdy;
+	pdx = sin(img->player.prot) * (SPEED_MOVE + img->flags.spd);
+	pdy = cos(img->player.prot) * (SPEED_MOVE + img->flags.spd);
+	img->player.posy -= pdy;
 	img->player.posx += pdx;
 	return (1);
 }

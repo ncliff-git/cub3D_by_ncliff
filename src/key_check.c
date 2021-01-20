@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 21:57:41 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/19 22:48:39 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 16:39:13 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ int key_press(int keycode, t_data *img)
 		img->flags.rot = -1;
 	if (keycode == 124)
 		img->flags.rot = 1;
+	if (keycode == 257)
+		img->flags.spd = SHIFT_MOVE;
+	if (keycode == 256)
+		img->flags.spd = CTRL_MOVE;
 	return (1);
 }
 
@@ -50,6 +54,11 @@ int key_realize(int keycode, t_data *img)
 		img->flags.rot = 0;
 	if (keycode == 124)
 		img->flags.rot = 0;
+	if (keycode == 257)
+		img->flags.spd = 0;
+	if (keycode == 256)
+		img->flags.spd = 0;
+	printf("%d\n", keycode);
 	return (1);
 }
 

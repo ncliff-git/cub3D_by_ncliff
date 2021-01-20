@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/19 23:13:15 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 16:39:29 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@
 # define mapHeight 24
 # define screenWidth 640
 # define screenHeight 480
+# define SPEED_MOVE 3
+# define SHIFT_MOVE 2
+# define CTRL_MOVE -1
 # define SPEED_ROT 10
 # define PI 3.1415926535
 #include <stdlib.h>
 #include <mlx.h>
 #include <math.h>
 #include <unistd.h>
+#include <stdio.h>
 
 typedef struct	s_img
 {
@@ -40,6 +44,7 @@ typedef struct	s_flag
 	int			btn_rt;
 	int			btn_lt;
 	int			rot;
+	float		spd;
 }				t_flag;
 
 typedef struct	s_player
