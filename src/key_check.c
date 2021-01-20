@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 21:57:41 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/20 16:39:13 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 21:34:21 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int key_realize(int keycode, t_data *img)
 		img->flags.spd = 0;
 	if (keycode == 256)
 		img->flags.spd = 0;
-	printf("%d\n", keycode);
 	return (1);
 }
 

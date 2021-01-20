@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/20 16:39:29 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 21:47:29 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define SPEED_MOVE 3
 # define SHIFT_MOVE 2
 # define CTRL_MOVE -1
-# define SPEED_ROT 10
+# define SPEED_ROT 4
 # define PI 3.1415926535
 #include <stdlib.h>
 #include <mlx.h>
@@ -49,8 +49,8 @@ typedef struct	s_flag
 
 typedef struct	s_player
 {
-	int			posx;
-	int			posy;
+	float		posx;
+	float		posy;
 	float		prot;
 }				t_player;
 

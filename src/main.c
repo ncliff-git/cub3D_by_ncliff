@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 17:07:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/20 16:06:13 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/20 21:43:54 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,40 @@ int plr_render(t_img *img, int pX, int pY)
 	return (1);
 }
 
+int line(t_data *img)
+{
+	float pdx;
+	float pdy;
+	int i;
+
+	i = 0;
+	pdx = 0;
+	pdy = 0;
+	pdx = cos(img->player.prot);
+	pdy = sin(img->player.prot);
+	while (worldMap[(int)(img->player.posy + pdy)/20][(int)(img->player.posx + pdx)/20] != 1)
+	{
+		pdx += cos(img->player.prot);
+		pdy += sin(img->player.prot);
+		my_mlx_pixel_put(&img->img, img->player.posx + pdx, img->player.posy + pdy, 0x00FF00FF);
+	}
+	printf("prot: %f\n", img->player.prot);
+	return (1);
+}
+
+int render(t_data *img)
+{
+	mlx_destroy_image(img->mlx, img->img.img);
+	img->img.img = mlx_new_image(img->mlx, screenWidth + 1, screenHeight + 1);
+	plr_render(&img->img_pl, 3, 3);
+	map_render(img);
+	line(img);
+	return (1);
+}
+
 int	loop_hook(t_data *img)
 {
+	render(img);
 	key_move(img);
 	mlx_clear_window(img->mlx, img->mlx_win);
 	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img.img, 0, 0);
@@ -136,8 +168,7 @@ int	main(void)
 	img.img_pl.img = mlx_new_image(img.mlx, 3, 3);
 	img.img_pl.addr = mlx_get_data_addr(img.img_pl.img, &img.img_pl.bits_per_pixel, &img.img_pl.line_length, &img.img_pl.endian);
 
-	plr_render(&img.img_pl, 3, 3);
-	map_render(&img);
+	render(&img);
 
 	mlx_hook(img.mlx_win, 2, 1L<<0, key_press, &img);
 	mlx_key_hook(img.mlx_win, key_realize, &img);
