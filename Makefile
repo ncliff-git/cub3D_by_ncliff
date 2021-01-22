@@ -4,7 +4,8 @@ HEADER	= includes/
 
 SRC		=	main.c		\
 			key_check.c	\
-			movement.c	
+			movement.c	\
+			render3d.c
 
 CC		= gcc
 

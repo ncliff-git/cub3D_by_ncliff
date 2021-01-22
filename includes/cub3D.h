@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/20 21:47:29 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/22 19:38:28 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # define mapWidth 24
 # define mapHeight 24
-# define screenWidth 640
-# define screenHeight 480
+# define screenWidth 1280
+# define screenHeight 720
+# define propWidth 128
+# define propHeight 72
 # define SPEED_MOVE 3
 # define SHIFT_MOVE 2
 # define CTRL_MOVE -1
@@ -65,13 +67,14 @@ typedef struct	s_data
 {
 	void		*mlx;
 	void		*mlx_win;
-	t_img		img;
-	t_flag		flags;
+	t_img		img_mmp;
+	t_img		img_mp;
 	t_img		img_pl;
 	t_player	player;
+	t_flag		flags;
 }				t_data;
 
-void	cub(t_data *img, int x, int y);
+void	cub(t_data *img, int x, int y, unsigned long color);
 int		map_render(t_data *img);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int		key_press(int keycode, t_data *img);
@@ -82,6 +85,6 @@ int		move_up(t_data *img);
 int		move_dw(t_data *img);
 int		move_rt(t_data *img);
 int		move_lt(t_data *img);
-
+int		render3d(t_data *img, int width, int lenray);
 
 #endif
