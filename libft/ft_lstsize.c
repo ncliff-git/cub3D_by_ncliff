@@ -1,13 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_render.c                                       :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/19 19:25:18 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/20 21:34:12 by ncliff           ###   ########.fr       */
+/*   Created: 2020/11/03 20:18:10 by ncliff            #+#    #+#             */
+/*   Updated: 2020/11/03 20:18:11 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "libft.h"
+
+int	ft_lstsize(t_list *lst)
+{
+	int i;
+
+	i = 0;
+	if (!lst)
+		return (0);
+	while (lst)
+	{
+		lst = lst->next;
+		i += 1;
+	}
+	return (i);
+}

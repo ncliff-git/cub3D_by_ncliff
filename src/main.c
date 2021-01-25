@@ -5,25 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/18 17:07:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/22 19:42:59 by ncliff           ###   ########.fr       */
+/*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
+/*   Updated: 2021/01/25 18:18:18 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/cub3D.h"
 
-int worldMap[mapWidth][mapHeight]=
+//--------TEST---------//
+//--------TEST---------//
+//--------TEST---------//
+
+int worldMap[24][24]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -41,6 +44,179 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+int		create_trgb(int t, int r, int g, int b)
+{
+	return(t << 24 | r << 16 | g << 8 | b);
+}
+
+void	verLine(t_data *info, int x, int y1, int y2, int color)
+{
+	int	y;
+
+	y = y1;
+	while (y <= y2)
+	{
+		my_mlx_pixel_put(&info->img_mp, x, y, color);
+		y++;
+	}
+}
+
+void render3D(t_data *data)
+{
+	int	x;
+
+	x = 0;
+	while (x < data->file.resx)
+	{
+		double cameraX = 2 * x / (double)data->file.resx - 1;
+		double rayDirX = data->player.dirx + data->player.planx * cameraX;
+		double rayDirY = data->player.diry + data->player.plany * cameraX;
+		data->player.mapx = (int)data->player.posx;
+		data->player.mapy = (int)data->player.posy;
+		data->player.ddistx = fabs(1 / rayDirX);
+		data->player.ddisty = fabs(1 / rayDirY);
+		data->player.hit = 0;
+		if (rayDirX < 0)
+		{
+			data->player.stepx = -1;
+			data->player.sdistx = (data->player.posx - data->player.mapx) * data->player.ddistx;
+		}
+		else
+		{
+			data->player.stepx = 1;
+			data->player.sdistx = (data->player.mapx + 1.0 - data->player.posx) * data->player.ddistx;
+		}
+		if (rayDirY < 0)
+		{
+			data->player.stepy = -1;
+			data->player.sdisty = (data->player.posy - data->player.mapy) * data->player.ddisty;
+		}
+		else
+		{
+			data->player.stepy = 1;
+			data->player.sdisty = (data->player.mapy + 1.0 - data->player.posy) * data->player.ddisty;
+		}
+		while (data->player.hit == 0)
+		{
+			if (data->player.sdistx < data->player.sdisty)
+			{
+				data->player.sdistx += data->player.ddistx;
+				data->player.mapx += data->player.stepx;
+				data->player.side = 0;
+			}
+			else
+			{
+				data->player.sdisty += data->player.ddisty;
+				data->player.mapy += data->player.stepy;
+				data->player.side = 1;
+			}
+			if (worldMap[data->player.mapx][data->player.mapy] > 0) data->player.hit = 1;
+		}
+		if (data->player.side == 0)
+			data->player.pwdist = (data->player.mapx - data->player.posx + (1 - data->player.stepx) / 2) / rayDirX;
+		else
+			data->player.pwdist = (data->player.mapy - data->player.posy + (1 - data->player.stepy) / 2) / rayDirY;
+		data->player.lineh = (int)(data->file.resy / data->player.pwdist);
+		int drawStart = -data->player.lineh / 2 + data->file.resy / 2;
+		if(drawStart < 0)
+			drawStart = 0;
+		int drawEnd = data->player.lineh / 2 + data->file.resy / 2;
+		if(drawEnd >= data->file.resy)
+			drawEnd = data->file.resy - 1;
+		int	color;
+		if (worldMap[data->player.mapx][data->player.mapy] == 1)
+			color = 0x00eb596e;
+		else if (worldMap[data->player.mapx][data->player.mapy] == 2)
+			color = 0x00F0FF00;
+		else if (worldMap[data->player.mapx][data->player.mapy] == 3)
+			color = 0x000000FF;
+		else
+			color = 0x00FFFF00;
+		
+		if (data->player.side == 1)
+			color = color / 2;
+		verLine(data, x, drawStart, drawEnd, color);
+		x++;
+	}
+	return ;
+}
+
+int rendersky(t_data *data)
+{
+	int y;
+	int x;
+
+	y = 0;
+	x = 0;
+	while (x < data->file.resx)
+	{
+		while (y < data->file.resy)
+		{
+			if (data->file.resy/2 > y)
+				my_mlx_pixel_put(&data->img_mp, x, y, 0x00bbf1fa);
+			else if (data->file.resy > y)
+				my_mlx_pixel_put(&data->img_mp, x, y, 0x00c19277);
+			y++;
+		}
+		y = 0;
+		x++;
+	}
+	return (1);
+}
+
+int render(t_data *data)
+{
+	mlx_destroy_image(data->mlx, data->img_mp.img);
+	data->img_mp.img = mlx_new_image(data->mlx, data->file.resx, data->file.resy); // Сделать define
+	rendersky(data);
+	render3D(data);
+	return (1);
+}
+
+//--------FINAL--------//
+//--------FINAL--------//
+//--------FINAL--------//
+
+int data_constr(t_data *data)
+{
+	data->file.resx = 1280;
+	data->file.resy = 720;
+	data->player.posx = 22;
+	data->player.posy = 12;
+	//
+	data->player.dirx = -1;
+	data->player.diry = 0;
+	
+	data->player.planx = 0;
+	data->player.plany = 0.66;
+	//
+	data->player.cam = 0;
+	data->player.raydirx = 0;
+	data->player.raydiry = 0;
+	data->player.mapx = 0;
+	data->player.mapy = 0;
+	data->player.sdistx = 0;
+	data->player.sdisty = 0;
+	data->player.ddistx = 0;
+	data->player.ddisty = 0;
+	data->player.stepx = 0;
+	data->player.stepy = 0;
+	data->player.hit = 0;
+	data->player.side = 0;
+	data->player.lineh = 0;
+	data->player.drawend = 0;
+	data->player.drawstart = 0;
+	data->player.prot = 0;
+	data->flags.btn_dw = 0;
+	data->flags.btn_lt = 0;
+	data->flags.btn_rt = 0;
+	data->flags.btn_up = 0;
+	data->flags.rot = 0;
+	data->flags.spd = 0;
+	data->player.hit = 0;
+	return (1);
+}
+
 void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -49,154 +225,34 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void cub(t_data *img, int x, int y, unsigned long color)
+int	loop_hook(t_data *data)
 {
-	int cx;
-	int cy;
-
-	cx = 0;
-	cy = 0;
-	while (cx++ < screenWidth / propWidth)
-	{
-		while (cy++ < screenHeight / propHeight)
-		{
-			my_mlx_pixel_put(&img->img_mmp, (x) + cx, (y) + cy, color);
-		}
-		cy = 0;
-	}
-}
-
-int	map_render(t_data *img)
-{
-	int x = 0;
-	int y = 0;
-	int mpw = 0;
-	int mph = 0;
-	while (mpw < mapWidth)
-	{
-		while (mph < mapHeight)
-		{
-			if (worldMap[mph][mpw] == 1)
-				cub(img, x, y, 0x558D99AE);
-			if (worldMap[mph][mpw] == 0)
-				cub(img, x, y, 0x552B2D42);
-			y += screenHeight / propHeight;
-			mph += 1;
-		}
-		y = 0;
-		x += screenWidth / propWidth;
-		mph = 0;
-		mpw += 1;
-	}
+	render(data);
+	key_move(data);
+	mlx_clear_window(data->mlx, data->mlx_win);
+	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_mp.img, 0, 0);
 	return (1);
 }
 
-int plr_render(t_img *img, int pX, int pY)
+int main(int argc, char **argv)
 {
-	int sx;
-	int sy;
+	t_data	data;
 
-	sx = -1;
-	sy = -1;
-	while (++sx < pX)
-	{
-		while (++sy < pY)
-			my_mlx_pixel_put(img, sx, sy, 0x00f72585);
-		sy = -1;
-	}
-	return (1);
-}
-
-int line(t_data *img, float lrot)
-{
-	float pdx;
-	float pdy;
-	int i;
-
-	i = 0;
-	pdx = 0;
-	pdy = 0;
-	pdx = cos(img->player.prot + lrot);
-	pdy = sin(img->player.prot + lrot);
-	while (worldMap[(int)(img->player.posy + lrot + pdy) / (screenHeight / propHeight)][(int)(img->player.posx + lrot + pdx) / (screenWidth / propWidth)] != 1)
-	{
-		pdx += cos(img->player.prot + lrot);
-		pdy += sin(img->player.prot + lrot);
-		i++;
-		my_mlx_pixel_put(&img->img_mmp, img->player.posx + lrot + pdx, img->player.posy + lrot + pdy, 0x00FDFFB6);
-	}
-	return (i);
-}
-
-int render(t_data *img)
-{
-	float	i;
-	int		sc;
-
-	i = ((PI / 3) / 2) * -1;
-	sc = -1;
-	mlx_destroy_image(img->mlx, img->img_mmp.img);
-	img->img_mmp.img = mlx_new_image(img->mlx, 240 + 1, 240 + 1);
-	mlx_destroy_image(img->mlx, img->img_mp.img);
-	img->img_mp.img = mlx_new_image(img->mlx, screenWidth, screenHeight); // Сделать define
-	plr_render(&img->img_pl, 5, 5);
-	map_render(img);
-	while(i < ((PI / 3) / 2))
-	{
-		line(img, i);
-		sc++;
-		render3d(img, sc, line(img, i));
-		i += ((PI / 3) / screenWidth);
-	}
-	printf("%d", sc);
-	return (1);
-}
-
-int	loop_hook(t_data *img)
-{
-	render(img);
-	key_move(img);
-	mlx_clear_window(img->mlx, img->mlx_win);
-	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img_mp.img, 0, 0);
-	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img_mmp.img, 0, 0);
-	mlx_put_image_to_window(img->mlx, img->mlx_win, img->img_pl.img, img->player.posx, img->player.posy);
-	return (1);
-}
-
-int	main(void)
-{
-	t_data	img;
+	argv[argc] = NULL;
 	
-	//-- Конструктор
-	img.player.posx = 40;
-	img.player.posy = 40;
-	img.player.prot = 4.77;
+	data.file.fd = open(argv[1], O_RDONLY);
+	parser(&data);
 
-	img.flags.btn_dw = 0;
-	img.flags.btn_lt = 0;
-	img.flags.btn_rt = 0;
-	img.flags.btn_up = 0;
-	img.flags.rot = 0;
-	img.flags.spd = 0;
-	//--
+	data_constr(&data);
+	data.mlx = mlx_init();
+	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");
+	data.img_mp.img = mlx_new_image(data.mlx, data.file.resx, data.file.resy);
+	data.img_mp.addr = mlx_get_data_addr(data.img_mp.img, &data.img_mp.bits_per_pixel, &data.img_mp.line_length, &data.img_mp.endian);
 
-	img.mlx = mlx_init();
-	img.mlx_win = mlx_new_window(img.mlx, screenWidth + 1, screenHeight + 1, "cub3D");
-	
-	img.img_mmp.img = mlx_new_image(img.mlx, 240 + 1, 240 + 1); // Сделать define
-	img.img_mmp.addr = mlx_get_data_addr(img.img_mmp.img, &img.img_mmp.bits_per_pixel, &img.img_mmp.line_length, &img.img_mmp.endian);
+	mlx_hook(data.mlx_win, 2, 1L<<0, key_press, &data);
+	mlx_key_hook(data.mlx_win, key_realize, &data);
 
-	img.img_mp.img = mlx_new_image(img.mlx, screenWidth, screenHeight);
-	img.img_mp.addr = mlx_get_data_addr(img.img_mp.img, &img.img_mp.bits_per_pixel, &img.img_mp.line_length, &img.img_mp.endian);
-
-	img.img_pl.img = mlx_new_image(img.mlx, 5, 5);
-	img.img_pl.addr = mlx_get_data_addr(img.img_pl.img, &img.img_pl.bits_per_pixel, &img.img_pl.line_length, &img.img_pl.endian);
-
-	render(&img);
-
-	mlx_hook(img.mlx_win, 2, 1L<<0, key_press, &img);
-	mlx_key_hook(img.mlx_win, key_realize, &img);
-
-	mlx_loop_hook(img.mlx, &loop_hook, &img);
-	mlx_loop(img.mlx);
+	mlx_loop_hook(data.mlx, &loop_hook, &data);
+	mlx_loop(data.mlx);
+	return (0);
 }

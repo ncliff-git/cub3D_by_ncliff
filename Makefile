@@ -5,7 +5,10 @@ HEADER	= includes/
 SRC		=	main.c		\
 			key_check.c	\
 			movement.c	\
-			render3d.c
+			render_2d.c	\
+			get_next_line.c\
+			get_next_line_utils.c\
+			parser_file.c
 
 CC		= gcc
 
@@ -17,14 +20,26 @@ OUT_DIR = obj
 
 MKDIR_P	= mkdir -p
 
-all: $(OUT_DIR) $(NAME)
+LIBFT	= libft/libft.a
+
+FT_PRINTF = ft_printf/libftprintf.a
+
+all: $(OUT_DIR) $(LIBFT) $(FT_PRINTF) $(NAME)
 
 obj/%.o:	src/%.c
 	@$(CC) -Wall -Wextra -Werror -Imlxl -c $< -o $@
 
-$(NAME):	$(OBJ)
-	@$(CC) $(OBJ) mlx/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
+$(NAME):	$(OBJ) $(LIBFT) $(FT_PRINTF)
+	@$(CC) $(OBJ) mlx/libmlx.a $(LIBFT) $(FT_PRINTF) -framework OpenGL -framework AppKit -o $(NAME)
 	@echo '$(cgreen)Good compile!'
+
+$(LIBFT):
+	@cd libft && make
+	@echo '$(cgreen)Libft compile$(cwhite)'
+
+$(FT_PRINTF):
+	@cd ft_printf && make
+	@echo '$(cgreen)ft_printf compile$(cwhite)'
 
 $(OUT_DIR):
 	@$(MKDIR_P) $@
@@ -35,6 +50,7 @@ re: fclean all
 
 clean:
 	@/bin/rm -rf $(OUT_DIR)
+	@cd libft && make fclean
 	@echo '$(ccred)$(OUT_DIR) delete$(cwhite)'
 
 fclean: clean
