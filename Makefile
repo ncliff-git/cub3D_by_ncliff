@@ -1,4 +1,4 @@
-NAME	= cub3D.a
+NAME	= cub3D
 
 HEADER	= includes/
 
@@ -8,7 +8,10 @@ SRC		=	main.c		\
 			render_2d.c	\
 			get_next_line.c\
 			get_next_line_utils.c\
-			parser_file.c
+			parser_file.c \
+			parser_file_r.c\
+			parser_map.c\
+			valid_map.c
 
 CC		= gcc
 

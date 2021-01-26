@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:06:20 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/25 21:36:55 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/26 17:56:14 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int		pars_2(t_data *data, char *line)
 {
 	data->file.szx = 4;
 
-	printf("%s\n", line);
+	//printf("%s\n", line);
 	if (*line == 'R')
-		return (1);
+		return (pars_res(data, &line[1]));
 	else if (*line == 'N')
 		return (1);
-	else if (*line == 'S')
+	else if (*line == 'S' && *(line + 1) == 'O')
 		return (1);
 	else if (*line == 'W')
 		return (1);
@@ -34,9 +34,13 @@ int		pars_2(t_data *data, char *line)
 	else if (*line == 'C')
 		return (1);
 	else if (*line == '1')
+	{
+		pars_map(data);
 		return (2);
+	}
 	else
 		return (-1);
+	return (1);
 }
 
 int		pars_1(t_data *data)
@@ -44,16 +48,20 @@ int		pars_1(t_data *data)
 	int i;
 	char *line;
 
+	t_list	*first;
+
+	first = data->file.file;
 	while (data->file.file->next != NULL)
 	{
 		i = 0;
 		line = data->file.file->content;
-		while (line[i] == ' ' || line[i] == '\t')
+		while (line[i] == ' ')
 			i++;
 		if(pars_2(data, &line[i]) == 2)
-			exit(1);
+			return (1);
 		data->file.file = data->file.file->next;
 	}
+	data->file.file = first;
 	return (1);
 }
 
@@ -73,9 +81,15 @@ int     parser(t_data *data)
 			data->file.file = data->file.file->next;
 		data->file.file->next = ft_lstnew(line);
 	}
+	while (data->file.file->next)
+			data->file.file = data->file.file->next;
+	data->file.file->next = ft_lstnew(line);
 	data->file.file = first;
 	write(1, "endpars\n", 8);
 	pars_1(data);
+
+	valid_map(data);
+	ft_lstclear(&data->file.file, free);
 	if (line != NULL)
 		free(line);
 	return (1);

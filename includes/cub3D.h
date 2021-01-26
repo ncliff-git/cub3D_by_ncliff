@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/25 21:37:08 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/26 17:54:56 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define PI 3.1415926535
 # define PI2 PI/2
 # define PI3 PI/3
+# define WORLD_MAP data->file.map
 
 typedef struct	s_img
 {
@@ -96,6 +97,13 @@ typedef struct	s_map
 	t_list		*file;
 	int			resx;
 	int			resy;
+	char		*no_ture;
+	char		*so_ture;
+	char		*we_ture;
+	char		*ea_ture;
+	char		*s_ture;
+	int			f[3];
+	int			c[3];
 	int			szx;
 	int			szy;
 	char		**map;
@@ -126,7 +134,11 @@ int				move_lt(t_data *img);
 int				drowline(int x, int colorR, t_data *data);
 
 int				parser(t_data *data);
-int				pars_r(t_data *data, char *line);
+int				pars_res(t_data *data, char *line);
+
+int				pars_map(t_data *data);
+
+int		valid_map(t_data *data);
 
 
 #endif
