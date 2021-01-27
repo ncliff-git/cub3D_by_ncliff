@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 22:22:46 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/25 14:15:10 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/27 16:52:06 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ int move_rot(t_data *img, int rot)
 
 int	move_up(t_data *img)
 {
+	//if (img->file.map[(int)(img->player.posx + img->player.dirx * SPEED_MOVE)][(int)(img->player.posy + img->player.diry * SPEED_MOVE)] == '1')
+	//	return (1);
 	img->player.posx += img->player.dirx * SPEED_MOVE;
 	img->player.posy += img->player.diry * SPEED_MOVE;
+	//if (img->file.map[(int)img->player.posx + img->player.dirx * SPEED_MOVE][(int)img->player.posy + img->player.diry * SPEED_MOVE])
 	return (1);
 }
 

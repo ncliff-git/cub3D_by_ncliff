@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/26 17:54:56 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/27 19:45:05 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct	s_map
 	int			c[3];
 	int			szx;
 	int			szy;
+	char		stpos;
 	char		**map;
 }				t_map;
 

@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/26 17:32:40 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/27 19:52:28 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,8 @@ int data_constr(t_data *data)
 {
 	//data->file.resx = 1280;
 	//data->file.resy = 720;
-	data->player.posx = 10;
-	data->player.posy = 10;
+//	data->player.posx = 10;
+//	data->player.posy = 10;
 	//
 	data->player.dirx = -1;
 	data->player.diry = 0;
