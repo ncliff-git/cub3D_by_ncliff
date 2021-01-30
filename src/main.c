@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/27 19:52:28 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/30 20:43:37 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,6 @@
 //--------TEST---------//
 //--------TEST---------//
 //--------TEST---------//
-
-// int worldMap[24][24]=
-// {
-//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-// };
 
 int		create_trgb(int t, int r, int g, int b)
 {
@@ -110,7 +82,9 @@ void render3D(t_data *data)
 				data->player.mapy += data->player.stepy;
 				data->player.side = 1;
 			}
-			if (WORLD_MAP[data->player.mapx][data->player.mapy] > '0') data->player.hit = 1;
+			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1') data->player.hit = 1;
+			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '2') data->player.hit = 1;
+			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '3') data->player.hit = 1;
 		}
 		if (data->player.side == 0)
 			data->player.pwdist = (data->player.mapx - data->player.posx + (1 - data->player.stepx) / 2) / rayDirX;
@@ -123,22 +97,79 @@ void render3D(t_data *data)
 		int drawEnd = data->player.lineh / 2 + data->file.resy / 2;
 		if(drawEnd >= data->file.resy)
 			drawEnd = data->file.resy - 1;
-		int	color;
-		if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1')
-			color = 0x00eb596e;
-		else if (WORLD_MAP[data->player.mapx][data->player.mapy] == '2')
-			color = 0x00F0FF00;
-		else if (WORLD_MAP[data->player.mapx][data->player.mapy] == '3')
-			color = 0x000000FF;
+
+		//
+		// Часть с текстурой
+		//
+			write(1, "1\n", 2);
+
+		double wallX;
+		if (data->player.side == 0)
+			wallX = data->player.posy + data->player.pwdist * rayDirY;
 		else
-			color = 0x00FFFF00;
-		
-		if (data->player.side == 1)
-			color = color / 2;
+			wallX = data->player.posx + data->player.pwdist * rayDirX;
+		wallX -= floor((wallX));
+
+		int texX = (int)(wallX * (double)TEX_WIDTH);
+		if (data->player.side == 0 && rayDirX > 0)
+			texX = TEX_WIDTH - texX - 1;
+		if (data->player.side == 1 && rayDirY < 0)
+			texX = TEX_WIDTH - texX - 1;
+
+		double step = 1.0 * TEX_HEIGHT / data->player.lineh;
+
+		int color = 0;
+		double texPos = (drawStart - data->file.resy / 2 + data->player.lineh / 2) * step;
+		for (int y = drawStart; y < drawEnd; y++)
+		{
+			//int texY = (int)texPos & (TEX_HEIGHT - 1);
+			//write(1, "1\n", 2);
+			texPos += step;
+			color = my_mlx_pixel_take(&data->no_tx, x, y);
+			//
+		}
+
+		//
+		// часть с текстурой
+		//
+
+		//if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1')
+		//	color = 0x00eb596e;
+		//else if (WORLD_MAP[data->player.mapx][data->player.mapy] == '2')
+		//	color = 0x00F0FF00;
+		//else if (WORLD_MAP[data->player.mapx][data->player.mapy] == '3')
+		//	color = 0x000000FF;
+		//if (data->player.side == 1)
+		//	color = color / 2;
 		verLine(data, x, drawStart, drawEnd, color);
 		x++;
 	}
 	return ;
+}
+
+int mlx_texture(t_data *data)
+{
+	int width;
+	int height;
+
+	// ТУТ ПРОБЛЕМААААААА
+	write(1, "2\n", 2);
+	data->no_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
+	data->no_tx.addr = mlx_get_data_addr(data->no_tx.img, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);
+	write(1, "2\n", 2);
+	if (!(data->no_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.no_ture, &width, &height)))
+		return (-1);
+	//if (!(data->so_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.so_ture, &width, &height)))
+	//	return (-1);
+	//data->so_tx.addr = mlx_get_data_addr(data->so_tx.img, &data->so_tx.bits_per_pixel, &data->so_tx.line_length, &data->so_tx.endian);		
+	//if (!(data->we_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.we_ture, &width, &height)))
+	//	return (-1);
+	//data->we_tx.addr = mlx_get_data_addr(data->we_tx.img, &data->we_tx.bits_per_pixel, &data->we_tx.line_length, &data->we_tx.endian);		
+	//if (!(data->ea_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.ea_ture, &width, &height)))
+	//	return (-1);
+	//data->ea_tx.addr = mlx_get_data_addr(data->ea_tx.img, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);		
+	write(1, "2\n", 2);	
+	return (1);
 }
 
 int rendersky(t_data *data)
@@ -153,9 +184,9 @@ int rendersky(t_data *data)
 		while (y < data->file.resy)
 		{
 			if (data->file.resy/2 > y)
-				my_mlx_pixel_put(&data->img_mp, x, y, 0x00bbf1fa);
+				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.f[0], data->file.f[1], data->file.f[2]));
 			else if (data->file.resy > y)
-				my_mlx_pixel_put(&data->img_mp, x, y, 0x00c19277);
+				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.c[0], data->file.c[1], data->file.c[2]));
 			y++;
 		}
 		y = 0;
@@ -180,17 +211,8 @@ int render(t_data *data)
 
 int data_constr(t_data *data)
 {
-	//data->file.resx = 1280;
-	//data->file.resy = 720;
-//	data->player.posx = 10;
-//	data->player.posy = 10;
-	//
-	data->player.dirx = -1;
-	data->player.diry = 0;
-	
-	data->player.planx = 0;
-	data->player.plany = 0.66;
-	//
+	data->file.resx = 0;
+	data->file.resy = 0;
 	data->player.cam = 0;
 	data->player.raydirx = 0;
 	data->player.raydiry = 0;
@@ -218,6 +240,16 @@ int data_constr(t_data *data)
 	return (1);
 }
 
+int my_mlx_pixel_take(t_img *img, int x, int y)
+{
+	int color;
+	char	*dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	color = *(unsigned int*)dst;
+	return (color);
+}
+
 void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -228,6 +260,7 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 
 int	loop_hook(t_data *data)
 {
+	write(1, "1\n", 2);
 	render(data);
 	key_move(data);
 	mlx_clear_window(data->mlx, data->mlx_win);
@@ -240,16 +273,25 @@ int main(int argc, char **argv)
 	t_data	data;
 
 	argv[argc] = NULL;
-	
+	write(1, "1\n", 2);	
 	data.file.fd = open(argv[1], O_RDONLY);
-	parser(&data);
-	ft_printf("\n%d\n%d\n", data.file.resx, data.file.resy);
-
 	data_constr(&data);
+	if (parser(&data) == -1)
+	{
+		write(1, "Error\n", 6);
+		return (0);
+	}
+
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");
 	data.img_mp.img = mlx_new_image(data.mlx, data.file.resx, data.file.resy);
 	data.img_mp.addr = mlx_get_data_addr(data.img_mp.img, &data.img_mp.bits_per_pixel, &data.img_mp.line_length, &data.img_mp.endian);
+
+	if (mlx_texture(&data) == -1)
+	{
+		write(1, "Error\n", 6);
+		return (0);
+	}
 
 	mlx_hook(data.mlx_win, 2, 1L<<0, key_press, &data);
 	mlx_key_hook(data.mlx_win, key_realize, &data);

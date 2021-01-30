@@ -6,18 +6,17 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 21:57:41 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/23 18:28:04 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/30 17:05:54 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-int key_press(int keycode, t_data *img)
+int		key_press(int keycode, t_data *img)
 {
 	if (keycode == 53)
 	{
 		mlx_destroy_window(img->mlx, img->mlx_win);
-		// free СДЕЛАТЬ
 		exit(1);
 	}
 	if (keycode == 13)
@@ -39,7 +38,7 @@ int key_press(int keycode, t_data *img)
 	return (1);
 }
 
-int key_realize(int keycode, t_data *img)
+int		key_realize(int keycode, t_data *img)
 {
 	(void)keycode;
 	if (keycode == 13)
@@ -61,7 +60,7 @@ int key_realize(int keycode, t_data *img)
 	return (1);
 }
 
-int key_move(t_data *img)
+int		key_move(t_data *img)
 {
 	if (img->flags.btn_up == 1)
 		move_up(img);

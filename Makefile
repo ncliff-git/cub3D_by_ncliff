@@ -11,7 +11,9 @@ SRC		=	main.c		\
 			parser_file.c \
 			parser_file_r.c\
 			parser_map.c\
-			valid_map.c
+			valid_map.c\
+			parser_texture.c\
+			parser_color.c
 
 CC		= gcc
 

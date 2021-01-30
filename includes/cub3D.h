@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/27 19:45:05 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/30 20:28:28 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define PI2 PI/2
 # define PI3 PI/3
 # define WORLD_MAP data->file.map
+# define TEX_WIDTH 32
+# define TEX_HEIGHT 32
 
 typedef struct	s_img
 {
@@ -37,7 +39,7 @@ typedef struct	s_img
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
-}    			t_img;
+}				t_img;
 
 typedef struct	s_flag
 {
@@ -117,12 +119,18 @@ typedef struct	s_data
 	t_img		img_mmp;
 	t_img		img_mp;
 	t_img		img_pl;
+	t_img		no_tx;
+	t_img		so_tx;
+	t_img		we_tx;
+	t_img		ea_tx;
+	t_img		s_tx;
 	t_player	player;
 	t_flag		flags;
 	t_map		file;
 }				t_data;
 
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int				my_mlx_pixel_take(t_img *img, int x, int y);
 int				key_press(int keycode, t_data *img);
 int				key_realize(int keycode, t_data *img);
 int				key_move(t_data *img);
@@ -131,15 +139,12 @@ int				move_up(t_data *img);
 int				move_dw(t_data *img);
 int				move_rt(t_data *img);
 int				move_lt(t_data *img);
-
-int				drowline(int x, int colorR, t_data *data);
-
+int				drowline(int x, int colorr, t_data *data);
 int				parser(t_data *data);
 int				pars_res(t_data *data, char *line);
-
 int				pars_map(t_data *data);
-
-int		valid_map(t_data *data);
-
+int				valid_map(t_data *data);
+int				pars_texture(char **texture, char s, char *line);
+int				pars_color(int *data, char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:58:01 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/26 17:32:50 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/01/30 16:56:20 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static void	*ft_memset_m(void *ptr, int volue, size_t num)
 	return (ptr);
 }
 
-int		pars_map2(t_data *data, int x, int y)
+static int	pars_map2(t_data *data, int x, int y)
 {
 	int		i;
 	int		p;
 	char	*line;
-	
+
 	i = 0;
 	p = 0;
-	if(!(data->file.map = (char **)malloc(sizeof(char *) * y + 1)))
+	if (!(data->file.map = (char **)malloc(sizeof(char *) * y + 1)))
 		return (-1);
 	while (i <= y)
 	{
@@ -45,16 +45,14 @@ int		pars_map2(t_data *data, int x, int y)
 			data->file.map[i][p] = line[p];
 			p++;
 		}
-		//if(data->file.file->next != NULL)
 		data->file.file = data->file.file->next;
-		ft_printf("%s|\n", data->file.map[i]);
 		p = 0;
 		i++;
 	}
 	return (1);
 }
 
-int		pars_map(t_data *data)
+int			pars_map(t_data *data)
 {
 	int		x;
 	int		y;
@@ -65,17 +63,14 @@ int		pars_map(t_data *data)
 	first = data->file.file;
 	while (data->file.file->next)
 	{
-		if (ft_strlen((char*) data->file.file->content) > (size_t)x)
-			x = ft_strlen((char*) data->file.file->content);
-		//ft_printf("%s\n", data->file.file->content);
+		if (ft_strlen((char*)data->file.file->content) > (size_t)x)
+			x = ft_strlen((char*)data->file.file->content);
 		data->file.file = data->file.file->next;
 		y++;
 	}
 	data->file.szx = x;
 	data->file.szy = y;
-	ft_printf("\n%d\n%d\n", x, y);
 	data->file.file = first;
-
 	pars_map2(data, x, y);
 	return (1);
 }
