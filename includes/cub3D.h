@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 20:28:28 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/06 17:36:38 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct	s_data
 }				t_data;
 
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
-int				my_mlx_pixel_take(t_img *img, int x, int y);
+unsigned int	my_mlx_pixel_take(t_img *img, int x, int y);
 int				key_press(int keycode, t_data *img);
 int				key_realize(int keycode, t_data *img);
 int				key_move(t_data *img);

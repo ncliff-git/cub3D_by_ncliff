@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:06:20 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 20:19:55 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/06 18:40:12 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static int		pars_2(t_data *data, char *line)
 	else if (*line == 'N')
 		return (pars_texture(&data->file.no_ture, 'O', &line[1]));
 	else if (*line == 'S' && *(line + 1) == 'O')
-		return (pars_texture(&data->file.no_ture, 'O', &line[1]));
+		return (pars_texture(&data->file.so_ture, 'O', &line[1]));
 	else if (*line == 'W')
-		return (pars_texture(&data->file.no_ture, 'E', &line[1]));
+		return (pars_texture(&data->file.we_ture, 'E', &line[1]));
 	else if (*line == 'E')
-		return (pars_texture(&data->file.no_ture, 'A', &line[1]));
+		return (pars_texture(&data->file.ea_ture, 'A', &line[1]));
 	else if (*line == 'S')
-		return (pars_texture(&data->file.no_ture, ' ', &line[1]));
+		return (pars_texture(&data->file.s_ture, ' ', &line[1]));
 	else if (*line == 'F')
 		return (pars_color(data->file.f, &line[1]));
 	else if (*line == 'C')

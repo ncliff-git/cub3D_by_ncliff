@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 20:43:37 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/06 18:46:27 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void render3D(t_data *data)
 		//
 		// Часть с текстурой
 		//
-			write(1, "1\n", 2);
 
 		double wallX;
 		if (data->player.side == 0)
@@ -117,16 +116,43 @@ void render3D(t_data *data)
 			texX = TEX_WIDTH - texX - 1;
 
 		double step = 1.0 * TEX_HEIGHT / data->player.lineh;
-
-		int color = 0;
 		double texPos = (drawStart - data->file.resy / 2 + data->player.lineh / 2) * step;
 		for (int y = drawStart; y < drawEnd; y++)
 		{
 			//int texY = (int)texPos & (TEX_HEIGHT - 1);
-			//write(1, "1\n", 2);
-			texPos += step;
-			color = my_mlx_pixel_take(&data->no_tx, x, y);
-			//
+			//texPos += step;
+			//my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->no_tx, texX, texY));
+			if (data->player.side == 0)
+			{
+				if(data->player.stepx > 0)
+				{
+					int texY = (int)texPos & (TEX_HEIGHT - 1);
+					texPos += step;
+					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->so_tx, texX, texY));
+				}
+				else
+				{
+					int texY = (int)texPos & (TEX_HEIGHT - 1);
+					texPos += step;
+					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->no_tx, texX, texY));
+				}
+			}
+			else
+			{
+				if (data->player.stepy > 0)
+				{
+					int texY = (int)texPos & (TEX_HEIGHT - 1);
+					texPos += step;
+					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->ea_tx, texX, texY));
+				}
+				else
+				{
+					int texY = (int)texPos & (TEX_HEIGHT - 1);
+					texPos += step;
+					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->we_tx, texX, texY));
+				}
+			}
+
 		}
 
 		//
@@ -141,7 +167,7 @@ void render3D(t_data *data)
 		//	color = 0x000000FF;
 		//if (data->player.side == 1)
 		//	color = color / 2;
-		verLine(data, x, drawStart, drawEnd, color);
+		//verLine(data, x, drawStart, drawEnd, color);
 		x++;
 	}
 	return ;
@@ -152,23 +178,22 @@ int mlx_texture(t_data *data)
 	int width;
 	int height;
 
-	// ТУТ ПРОБЛЕМААААААА
-	write(1, "2\n", 2);
 	data->no_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
-	data->no_tx.addr = mlx_get_data_addr(data->no_tx.img, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);
-	write(1, "2\n", 2);
 	if (!(data->no_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.no_ture, &width, &height)))
 		return (-1);
-	//if (!(data->so_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.so_ture, &width, &height)))
-	//	return (-1);
-	//data->so_tx.addr = mlx_get_data_addr(data->so_tx.img, &data->so_tx.bits_per_pixel, &data->so_tx.line_length, &data->so_tx.endian);		
-	//if (!(data->we_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.we_ture, &width, &height)))
-	//	return (-1);
-	//data->we_tx.addr = mlx_get_data_addr(data->we_tx.img, &data->we_tx.bits_per_pixel, &data->we_tx.line_length, &data->we_tx.endian);		
-	//if (!(data->ea_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.ea_ture, &width, &height)))
-	//	return (-1);
-	//data->ea_tx.addr = mlx_get_data_addr(data->ea_tx.img, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);		
-	write(1, "2\n", 2);	
+	data->no_tx.addr = mlx_get_data_addr(data->no_tx.img, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);
+	data->so_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
+	if (!(data->so_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.so_ture, &width, &height)))
+		return (-1);
+	data->so_tx.addr = mlx_get_data_addr(data->so_tx.img, &data->so_tx.bits_per_pixel, &data->so_tx.line_length, &data->so_tx.endian);
+	data->we_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
+	if (!(data->we_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.we_ture, &width, &height)))
+		return (-1);
+	data->we_tx.addr = mlx_get_data_addr(data->we_tx.img, &data->we_tx.bits_per_pixel, &data->we_tx.line_length, &data->we_tx.endian);	
+	data->ea_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
+	if (!(data->ea_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.ea_ture, &width, &height)))
+		return (-1);
+	data->ea_tx.addr = mlx_get_data_addr(data->ea_tx.img, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);	
 	return (1);
 }
 
@@ -240,11 +265,12 @@ int data_constr(t_data *data)
 	return (1);
 }
 
-int my_mlx_pixel_take(t_img *img, int x, int y)
+unsigned int my_mlx_pixel_take(t_img *img, int x, int y)
 {
-	int color;
+	unsigned int color;
 	char	*dst;
 
+	color = 0;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	color = *(unsigned int*)dst;
 	return (color);
@@ -260,7 +286,6 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 
 int	loop_hook(t_data *data)
 {
-	write(1, "1\n", 2);
 	render(data);
 	key_move(data);
 	mlx_clear_window(data->mlx, data->mlx_win);
@@ -272,8 +297,7 @@ int main(int argc, char **argv)
 {
 	t_data	data;
 
-	argv[argc] = NULL;
-	write(1, "1\n", 2);	
+	argv[argc] = NULL;	
 	data.file.fd = open(argv[1], O_RDONLY);
 	data_constr(&data);
 	if (parser(&data) == -1)
