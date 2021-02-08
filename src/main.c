@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/06 18:46:27 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/08 18:13:40 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	verLine(t_data *info, int x, int y1, int y2, int color)
 void render3D(t_data *data)
 {
 	int	x;
-
+	double *zBuffer;
+	
 	x = 0;
+	zBuffer = (double *)malloc(sizeof(double) * data->file.resx);
 	while (x < data->file.resx)
 	{
 		double cameraX = 2 * x / (double)data->file.resx - 1;
@@ -82,9 +84,8 @@ void render3D(t_data *data)
 				data->player.mapy += data->player.stepy;
 				data->player.side = 1;
 			}
-			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1') data->player.hit = 1;
-			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '2') data->player.hit = 1;
-			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '3') data->player.hit = 1;
+			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1')
+				data->player.hit = 1;
 		}
 		if (data->player.side == 0)
 			data->player.pwdist = (data->player.mapx - data->player.posx + (1 - data->player.stepx) / 2) / rayDirX;
@@ -97,11 +98,9 @@ void render3D(t_data *data)
 		int drawEnd = data->player.lineh / 2 + data->file.resy / 2;
 		if(drawEnd >= data->file.resy)
 			drawEnd = data->file.resy - 1;
-
 		//
 		// Часть с текстурой
 		//
-
 		double wallX;
 		if (data->player.side == 0)
 			wallX = data->player.posy + data->player.pwdist * rayDirY;
@@ -117,11 +116,11 @@ void render3D(t_data *data)
 
 		double step = 1.0 * TEX_HEIGHT / data->player.lineh;
 		double texPos = (drawStart - data->file.resy / 2 + data->player.lineh / 2) * step;
+		//
+		// часть с текстурой
+		//
 		for (int y = drawStart; y < drawEnd; y++)
 		{
-			//int texY = (int)texPos & (TEX_HEIGHT - 1);
-			//texPos += step;
-			//my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->no_tx, texX, texY));
 			if (data->player.side == 0)
 			{
 				if(data->player.stepx > 0)
@@ -152,24 +151,28 @@ void render3D(t_data *data)
 					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->we_tx, texX, texY));
 				}
 			}
-
 		}
-
 		//
 		// часть с текстурой
 		//
-
-		//if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1')
-		//	color = 0x00eb596e;
-		//else if (WORLD_MAP[data->player.mapx][data->player.mapy] == '2')
-		//	color = 0x00F0FF00;
-		//else if (WORLD_MAP[data->player.mapx][data->player.mapy] == '3')
-		//	color = 0x000000FF;
-		//if (data->player.side == 1)
-		//	color = color / 2;
-		//verLine(data, x, drawStart, drawEnd, color);
+		zBuffer[x] = data->player.pwdist;
 		x++;
 	}
+	//
+	// часть со спрайтами
+	//
+
+	for(int i = 0; i < data->spr_sum; i++)
+    {
+		data->spriteOrder[i] = i;
+		data->spriteDistance[i] = ((data->player.posx - get_spr(data->spr, i, 'x')) * (data->player.posx - get_spr(data->spr, i, 'x')) + (data->player.posy - get_spr(data->spr, i, 'y')) * (data->player.posy - get_spr(data->spr, i, 'y'))); //sqrt not taken, unneeded
+    }
+
+	//Last change
+	
+	//
+	// часть со спрайтами
+	//
 	return ;
 }
 
@@ -305,6 +308,15 @@ int main(int argc, char **argv)
 		write(1, "Error\n", 6);
 		return (0);
 	}
+	data.spr_sum = malloc_spr(&data);
+	
+	data.spriteDistance = (double *)malloc(sizeof(double) * data.spr_sum);
+	data.spriteOrder = (int *)malloc(sizeof(int) * data.spr_sum);
+
+	printf("\ndb: %f\n", get_spr(data.spr, 2, 'x'));
+	
+	//ft_printf("\n%d\n", data.spr_sum);
+	//ft_printf("\n%d\n", data.spr->posx);
 
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");
