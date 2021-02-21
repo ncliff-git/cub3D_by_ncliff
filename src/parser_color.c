@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 19:00:05 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 16:51:39 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/21 15:01:04 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			pars_color(int *data, char *line)
 		return (-1);
 	if ((i = atoi_iter_mini(data, i, 2, line)) == -1)
 		return (-1);
-	while (line[i] == ' ')
+	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (line[i] != '\0')
 		return (-1);

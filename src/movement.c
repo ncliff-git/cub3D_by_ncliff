@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 22:22:46 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 20:19:50 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/20 19:19:24 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,17 @@ int move_rot(t_data *img, int rot)
 
 int	move_up(t_data *img)
 {
-	//if (img->file.map[(int)(img->player.posx + img->player.dirx * SPEED_MOVE)][(int)(img->player.posy + img->player.diry * SPEED_MOVE)] == '1')
-	//	return (1);
-	img->player.posx += img->player.dirx * SPEED_MOVE;
-	img->player.posy += img->player.diry * SPEED_MOVE;
-	//if (img->file.map[(int)img->player.posx + img->player.dirx * SPEED_MOVE][(int)img->player.posy + img->player.diry * SPEED_MOVE])
+	if(img->file.map[(int)(img->player.posx + img->player.dirx * SPEED_MOVE)][(int)(img->player.posy)] != '1')
+		img->player.posx += img->player.dirx * SPEED_MOVE;
+    if(img->file.map[(int)(img->player.posx)][(int)(img->player.posy + img->player.diry * SPEED_MOVE)] != '1')
+		img->player.posy += img->player.diry * SPEED_MOVE;
 	return (1);
 }
 
 int	move_dw(t_data *img)
 {
+	if (img->file.map[(int)(img->player.posx - img->player.dirx * SPEED_MOVE)][(int)(img->player.posy - img->player.diry * SPEED_MOVE)] == '1')
+		return (1);
 	img->player.posx -= img->player.dirx * SPEED_MOVE;
 	img->player.posy -= img->player.diry * SPEED_MOVE;
 	return (1);
@@ -57,6 +58,8 @@ int	move_dw(t_data *img)
 
 int	move_rt(t_data *img)
 {
+	if (img->file.map[(int)(img->player.posx + (img->player.dirx * cos(-PI/2) - img->player.diry * sin(-PI/2)) * SPEED_MOVE)][(int)(img->player.posy + (img->player.dirx * sin(-PI/2) + img->player.diry * cos(-PI/2)) * SPEED_MOVE)] == '1')
+		return (1);
 	img->player.posx += (img->player.dirx * cos(-PI/2) - img->player.diry * sin(-PI/2)) * SPEED_MOVE;
 	img->player.posy += (img->player.dirx * sin(-PI/2) + img->player.diry * cos(-PI/2)) * SPEED_MOVE;	
 	return (1);
@@ -64,6 +67,8 @@ int	move_rt(t_data *img)
 
 int	move_lt(t_data *img)
 {
+	if (img->file.map[(int)(img->player.posx + (img->player.dirx * cos(PI/2) - img->player.diry * sin(PI/2)) * SPEED_MOVE)][(int)(img->player.posy + (img->player.dirx * sin(PI/2) + img->player.diry * cos(PI/2)) * SPEED_MOVE)] == '1')
+		return (1);
 	img->player.posx += (img->player.dirx * cos(PI/2) - img->player.diry * sin(PI/2)) * SPEED_MOVE;
 	img->player.posy += (img->player.dirx * sin(PI/2) + img->player.diry * cos(PI/2)) * SPEED_MOVE;
 	return (1);

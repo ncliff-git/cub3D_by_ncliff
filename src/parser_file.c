@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:06:20 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/07 13:13:23 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/21 14:53:43 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int		pars_1(t_data *data)
 	{
 		i = 0;
 		line = data->file.file->content;
-		while (line[i] == ' ')
+		while (line[i] == ' ' || line[i] == '\t')
 			i++;
 		res = pars_2(data, &line[i]);
 		if (res == -1)
@@ -90,6 +90,7 @@ int				parser(t_data *data)
 	data->file.file = first;
 	if (pars_1(data) == -1)
 		return (-1);
+	// тут ошибка
 	ft_lstclear(&data->file.file, free);
 	if (line != NULL)
 		free(line);

@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:58:01 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 16:56:20 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/21 13:52:06 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int			pars_map(t_data *data)
 		data->file.file = data->file.file->next;
 		y++;
 	}
+	if (y == 1)
+		return (-1);
 	data->file.szx = x;
 	data->file.szy = y;
 	data->file.file = first;

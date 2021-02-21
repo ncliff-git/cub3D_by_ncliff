@@ -6,15 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/08 18:13:40 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/21 21:18:02 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
-
-//--------TEST---------//
-//--------TEST---------//
-//--------TEST---------//
 
 int		create_trgb(int t, int r, int g, int b)
 {
@@ -33,148 +29,259 @@ void	verLine(t_data *info, int x, int y1, int y2, int color)
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void render_math_1(t_data *data, int x)
+{
+	P_CAM = 2 * x / (double)RES_X - 1;
+	R_DIR_X = DIR_X + PLAN_X * P_CAM;
+	R_DIR_Y = DIR_Y + PLAN_Y * P_CAM;
+	P_MAP_X = (int)POS_X;
+	P_MAP_Y = (int)POS_Y;
+	D_DIST_X = fabs(1 / R_DIR_X);
+	D_DIST_Y = fabs(1 / R_DIR_Y);
+	HIT = 0;
+	(R_DIR_X < 0) ? (STEP_X = -1) : 0;
+	(R_DIR_X < 0) ? (S_DIST_X = (POS_X - P_MAP_X) * D_DIST_X) : 0;
+	(R_DIR_X < 0) ? 0 : (STEP_X = 1);
+	(R_DIR_X < 0) ? 0 : (S_DIST_X = (P_MAP_X + 1.0 - POS_X) * D_DIST_X);
+	(R_DIR_Y < 0) ? (STEP_Y = -1) : 0;
+	(R_DIR_Y < 0) ? (S_DIST_Y = (POS_Y - P_MAP_Y) * D_DIST_Y) : 0;
+	(R_DIR_Y < 0) ? 0 : (STEP_Y = 1);
+	(R_DIR_Y < 0) ? 0 : (S_DIST_Y = (P_MAP_Y + 1.0 - POS_Y) * D_DIST_Y);
+	return ;
+}
+
+void render_math_2(t_data *data)
+{
+	while (HIT == 0)
+	{
+		if (S_DIST_X < S_DIST_Y)
+		{
+			S_DIST_X += D_DIST_X;
+			P_MAP_X += STEP_X;
+			SIDE = 0;
+		}
+		else
+		{
+			S_DIST_Y += D_DIST_Y;
+			P_MAP_Y += STEP_Y;
+			SIDE = 1;
+		}
+		if (WORLD_MAP[P_MAP_X][P_MAP_Y] == '1')
+			HIT = 1;
+	}
+	(SIDE == 0) ? (PW_DIST = (P_MAP_X - POS_X + (1 - STEP_X) / 2) / R_DIR_X) : 0;
+	(SIDE == 0) ? 0 : (PW_DIST = (P_MAP_Y - POS_Y + (1 - STEP_Y) / 2) / R_DIR_Y);
+	LINE_H = (int)(RES_Y / PW_DIST);
+	DR_START = -LINE_H / 2 + RES_Y / 2;
+	(DR_START < 0) ? (DR_START = 0) : 0;
+	DR_END = LINE_H / 2 + RES_Y / 2;
+	(DR_END >= RES_Y) ? (DR_END = RES_Y - 1) : 0;
+	return ;
+}
+
+void render_math_3(t_data *data)
+{
+	(SIDE == 0) ? (WALL_X = POS_Y + PW_DIST * R_DIR_Y) : 0;
+	(SIDE == 0) ? 0 : (WALL_X = POS_X + PW_DIST * R_DIR_X);
+	WALL_X -= floor((WALL_X));
+	TEX_X = (int)(WALL_X * (double)TEX_WIDTH);
+	(SIDE == 0 && R_DIR_X > 0) ? (TEX_X = TEX_WIDTH - TEX_X - 1) : 0;
+	(SIDE == 1 && R_DIR_Y < 0) ? (TEX_X = TEX_WIDTH - TEX_X - 1) : 0;
+	STEP = 1.0 * TEX_HEIGHT / LINE_H;
+	TEX_POS = (DR_START - RES_Y / 2 + LINE_H / 2) * STEP;
+	return ;
+}
+
+void render_math_4(t_data *data, int x)
+{
+	int y;
+	
+	y = DR_START;
+	while (y < DR_END)
+	{
+		if (SIDE == 0)
+		{
+			if(STEP_X > 0)
+			{
+				TEX_Y = (int)TEX_POS & (TEX_HEIGHT - 1);
+				TEX_POS += STEP;
+				my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->so_tx, TEX_X, TEX_Y));
+			}
+			else
+			{
+				TEX_Y = (int)TEX_POS & (TEX_HEIGHT - 1);
+				TEX_POS += STEP;
+				my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->no_tx, TEX_X, TEX_Y));
+			}
+		}
+		else
+		{
+			if (STEP_Y > 0)
+			{
+				TEX_Y = (int)TEX_POS & (TEX_HEIGHT - 1);
+				TEX_POS += STEP;
+				my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->ea_tx, TEX_X, TEX_Y));
+			}
+			else
+			{
+				TEX_Y = (int)TEX_POS & (TEX_HEIGHT - 1);
+				TEX_POS += STEP;
+				my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->we_tx, TEX_X, TEX_Y));
+			}
+		}
+		y++;
+	}
+	return ;
+}
+
+void render_sp_math_1(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->spr_sum)
+    {
+		SPR_ORD[i] = i;
+		SPR_DST[i] = ((POS_X - get_spr(data->spr, i, 'x')) * (POS_X - get_spr(data->spr, i, 'x')) + (POS_Y - get_spr(data->spr, i, 'y')) * (POS_Y - get_spr(data->spr, i, 'y')));
+		i++;
+	}
+	sortSprites(SPR_ORD, SPR_DST, data->spr_sum);
+	return ;
+}
+
+void render_sp_math_2(t_data *data, int i)
+{
+	SP_X = get_spr(data->spr, SPR_ORD[i], 'x') - POS_X;
+	SP_Y = get_spr(data->spr, SPR_ORD[i], 'y') - POS_Y;
+	INV_DET = 1.0 / (PLAN_X * DIR_Y - DIR_X * PLAN_Y);
+	TRAN_X = INV_DET * (DIR_Y * SP_X - DIR_X * SP_Y);
+	TRAN_Y = INV_DET * (-PLAN_Y * SP_X + PLAN_X * SP_Y);
+	SPR_SCR_X = (int) ((RES_X / 2) * (1 + TRAN_X / TRAN_Y));
+	SPR_HT = abs((int) (RES_Y / (TRAN_Y)));
+	DR_SP_ST_Y = -SPR_HT / 2 + RES_Y / 2;
+	(DR_SP_ST_Y < 0) ? (DR_SP_ST_Y = 0) : 0;
+	DR_SP_ND_Y = SPR_HT / 2 + RES_Y / 2;
+	(DR_SP_ND_Y >= RES_Y) ? (DR_SP_ND_Y = RES_Y - 1) : 0;
+	SPR_WT = abs( (int) (RES_Y / (TRAN_Y)));
+	DR_SP_ST_X = -SPR_WT / 2 + SPR_SCR_X;
+	(DR_SP_ST_X < 0) ? (DR_SP_ST_X = 0) : 0;
+	DR_SP_ND_X = SPR_WT / 2 + SPR_SCR_X;
+	(DR_SP_ND_X >= RES_X) ? (DR_SP_ND_X = RES_X - 1) : 0;
+	return ;
+}
+
+void render_sp_math_3(t_data *data, double **zBuffer)
+{
+	int stripe;
+	int y;
+	
+	stripe = DR_SP_ST_X;
+	while (stripe < DR_SP_ND_X)
+	{
+		y = DR_SP_ST_Y;
+		SP_TEX_X = (int) (256 * (stripe - (-SPR_WT / 2 + SPR_SCR_X)) * TEX_WIDTH / SPR_WT) / 256;
+		if(TRAN_Y > 0 && stripe > 0 && stripe < RES_X && TRAN_Y < (*zBuffer)[stripe])
+		while (y < DR_SP_ND_Y)
+		{
+			int d = (y) * 256 - RES_Y * 128 + SPR_HT * 128;
+			SP_TEX_Y = ((d * TEX_HEIGHT) / SPR_HT) / 256;
+			SP_CR = my_mlx_pixel_take(&data->s_tx, SP_TEX_X, SP_TEX_Y);
+			if ((SP_CR & 0x00FFFFFF) != 0)
+				my_mlx_pixel_put(&data->img_mp, stripe, y, SP_CR);
+			y++;
+		}
+		stripe++;
+	}
+	return ;
+}
+
+
+
+
 void render3D(t_data *data)
 {
 	int	x;
+	int i;
 	double *zBuffer;
 	
 	x = 0;
-	zBuffer = (double *)malloc(sizeof(double) * data->file.resx);
-	while (x < data->file.resx)
+	zBuffer = (double *)malloc(sizeof(double) * RES_X);
+	while (x < RES_X)
 	{
-		double cameraX = 2 * x / (double)data->file.resx - 1;
-		double rayDirX = data->player.dirx + data->player.planx * cameraX;
-		double rayDirY = data->player.diry + data->player.plany * cameraX;
-		data->player.mapx = (int)data->player.posx;
-		data->player.mapy = (int)data->player.posy;
-		data->player.ddistx = fabs(1 / rayDirX);
-		data->player.ddisty = fabs(1 / rayDirY);
-		data->player.hit = 0;
-		if (rayDirX < 0)
-		{
-			data->player.stepx = -1;
-			data->player.sdistx = (data->player.posx - data->player.mapx) * data->player.ddistx;
-		}
-		else
-		{
-			data->player.stepx = 1;
-			data->player.sdistx = (data->player.mapx + 1.0 - data->player.posx) * data->player.ddistx;
-		}
-		if (rayDirY < 0)
-		{
-			data->player.stepy = -1;
-			data->player.sdisty = (data->player.posy - data->player.mapy) * data->player.ddisty;
-		}
-		else
-		{
-			data->player.stepy = 1;
-			data->player.sdisty = (data->player.mapy + 1.0 - data->player.posy) * data->player.ddisty;
-		}
-		while (data->player.hit == 0)
-		{
-			if (data->player.sdistx < data->player.sdisty)
-			{
-				data->player.sdistx += data->player.ddistx;
-				data->player.mapx += data->player.stepx;
-				data->player.side = 0;
-			}
-			else
-			{
-				data->player.sdisty += data->player.ddisty;
-				data->player.mapy += data->player.stepy;
-				data->player.side = 1;
-			}
-			if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1')
-				data->player.hit = 1;
-		}
-		if (data->player.side == 0)
-			data->player.pwdist = (data->player.mapx - data->player.posx + (1 - data->player.stepx) / 2) / rayDirX;
-		else
-			data->player.pwdist = (data->player.mapy - data->player.posy + (1 - data->player.stepy) / 2) / rayDirY;
-		data->player.lineh = (int)(data->file.resy / data->player.pwdist);
-		int drawStart = -data->player.lineh / 2 + data->file.resy / 2;
-		if(drawStart < 0)
-			drawStart = 0;
-		int drawEnd = data->player.lineh / 2 + data->file.resy / 2;
-		if(drawEnd >= data->file.resy)
-			drawEnd = data->file.resy - 1;
-		//
-		// Часть с текстурой
-		//
-		double wallX;
-		if (data->player.side == 0)
-			wallX = data->player.posy + data->player.pwdist * rayDirY;
-		else
-			wallX = data->player.posx + data->player.pwdist * rayDirX;
-		wallX -= floor((wallX));
-
-		int texX = (int)(wallX * (double)TEX_WIDTH);
-		if (data->player.side == 0 && rayDirX > 0)
-			texX = TEX_WIDTH - texX - 1;
-		if (data->player.side == 1 && rayDirY < 0)
-			texX = TEX_WIDTH - texX - 1;
-
-		double step = 1.0 * TEX_HEIGHT / data->player.lineh;
-		double texPos = (drawStart - data->file.resy / 2 + data->player.lineh / 2) * step;
-		//
-		// часть с текстурой
-		//
-		for (int y = drawStart; y < drawEnd; y++)
-		{
-			if (data->player.side == 0)
-			{
-				if(data->player.stepx > 0)
-				{
-					int texY = (int)texPos & (TEX_HEIGHT - 1);
-					texPos += step;
-					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->so_tx, texX, texY));
-				}
-				else
-				{
-					int texY = (int)texPos & (TEX_HEIGHT - 1);
-					texPos += step;
-					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->no_tx, texX, texY));
-				}
-			}
-			else
-			{
-				if (data->player.stepy > 0)
-				{
-					int texY = (int)texPos & (TEX_HEIGHT - 1);
-					texPos += step;
-					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->ea_tx, texX, texY));
-				}
-				else
-				{
-					int texY = (int)texPos & (TEX_HEIGHT - 1);
-					texPos += step;
-					my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->we_tx, texX, texY));
-				}
-			}
-		}
-		//
-		// часть с текстурой
-		//
-		zBuffer[x] = data->player.pwdist;
+		render_math_1(data, x);
+		render_math_2(data);
+		render_math_3(data);
+		render_math_4(data, x);
+		zBuffer[x] = PW_DIST;
 		x++;
 	}
-	//
-	// часть со спрайтами
-	//
-
-	for(int i = 0; i < data->spr_sum; i++)
+	render_sp_math_1(data);
+	i = 0;
+	while (i < data->spr_sum)
     {
-		data->spriteOrder[i] = i;
-		data->spriteDistance[i] = ((data->player.posx - get_spr(data->spr, i, 'x')) * (data->player.posx - get_spr(data->spr, i, 'x')) + (data->player.posy - get_spr(data->spr, i, 'y')) * (data->player.posy - get_spr(data->spr, i, 'y'))); //sqrt not taken, unneeded
+		render_sp_math_2(data, i);
+		render_sp_math_3(data, &zBuffer);
+		i++;
     }
-
-	//Last change
-	
-	//
-	// часть со спрайтами
-	//
 	return ;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int mlx_texture(t_data *data)
 {
@@ -196,7 +303,11 @@ int mlx_texture(t_data *data)
 	data->ea_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
 	if (!(data->ea_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.ea_ture, &width, &height)))
 		return (-1);
-	data->ea_tx.addr = mlx_get_data_addr(data->ea_tx.img, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);	
+	data->ea_tx.addr = mlx_get_data_addr(data->ea_tx.img, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);
+	data->s_tx.img = mlx_new_image(data->mlx, TEX_WIDTH, TEX_HEIGHT);
+	if (!(data->s_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.s_ture, &width, &height)))
+		return (-1);
+	data->s_tx.addr = mlx_get_data_addr(data->s_tx.img, &data->s_tx.bits_per_pixel, &data->s_tx.line_length, &data->s_tx.endian);
 	return (1);
 }
 
@@ -207,13 +318,13 @@ int rendersky(t_data *data)
 
 	y = 0;
 	x = 0;
-	while (x < data->file.resx)
+	while (x < RES_X)
 	{
-		while (y < data->file.resy)
+		while (y < RES_Y)
 		{
-			if (data->file.resy/2 > y)
+			if (RES_Y/2 > y)
 				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.f[0], data->file.f[1], data->file.f[2]));
-			else if (data->file.resy > y)
+			else if (RES_Y > y)
 				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.c[0], data->file.c[1], data->file.c[2]));
 			y++;
 		}
@@ -225,38 +336,31 @@ int rendersky(t_data *data)
 
 int render(t_data *data)
 {
-	//Меньше лагов ели не дистроить//
-	//mlx_destroy_image(data->mlx, data->img_mp.img);
-	//data->img_mp.img = mlx_new_image(data->mlx, data->file.resx, data->file.resy); // Сделать define
 	rendersky(data);
 	render3D(data);
 	return (1);
 }
 
-//--------FINAL--------//
-//--------FINAL--------//
-//--------FINAL--------//
-
 int data_constr(t_data *data)
 {
-	data->file.resx = 0;
-	data->file.resy = 0;
-	data->player.cam = 0;
-	data->player.raydirx = 0;
-	data->player.raydiry = 0;
-	data->player.mapx = 0;
-	data->player.mapy = 0;
-	data->player.sdistx = 0;
-	data->player.sdisty = 0;
-	data->player.ddistx = 0;
-	data->player.ddisty = 0;
-	data->player.stepx = 0;
-	data->player.stepy = 0;
-	data->player.hit = 0;
-	data->player.side = 0;
-	data->player.lineh = 0;
-	data->player.drawend = 0;
-	data->player.drawstart = 0;
+	RES_X = -1;
+	data->file.resy = -1;
+	P_CAM = 0;
+	R_DIR_X = 0;
+	R_DIR_Y = 0;
+	P_MAP_X = 0;
+	P_MAP_Y = 0;
+	S_DIST_X = 0;
+	S_DIST_Y = 0;
+	D_DIST_X = 0;
+	D_DIST_Y = 0;
+	STEP_X = 0;
+	STEP_Y = 0;
+	HIT = 0;
+	SIDE = 0;
+	LINE_H = 0;
+	DR_END = 0;
+	DR_START = 0;
 	data->player.prot = 0;
 	data->flags.btn_dw = 0;
 	data->flags.btn_lt = 0;
@@ -264,7 +368,16 @@ int data_constr(t_data *data)
 	data->flags.btn_up = 0;
 	data->flags.rot = 0;
 	data->flags.spd = 0;
-	data->player.hit = 0;
+	HIT = 0;
+	
+	data->file.f[0] = -1;
+	data->file.f[1] = -1;
+	data->file.f[2] = -1;
+	
+	data->file.c[0] = -1;
+	data->file.c[1] = -1;
+	data->file.c[2] = -1;
+
 	return (1);
 }
 
@@ -308,15 +421,17 @@ int main(int argc, char **argv)
 		write(1, "Error\n", 6);
 		return (0);
 	}
+	if (data.file.f[0] == -1 || data.file.f[1] == -1 || data.file.f[2] == -1
+	|| data.file.c[0] == -1 || data.file.c[1] == -1 || data.file.c[2] == -1
+	|| data.file.resx == -1 || data.file.resy == -1)
+	{
+		write(1, "Error\n", 6);
+		return (0);
+	}
 	data.spr_sum = malloc_spr(&data);
 	
 	data.spriteDistance = (double *)malloc(sizeof(double) * data.spr_sum);
 	data.spriteOrder = (int *)malloc(sizeof(int) * data.spr_sum);
-
-	printf("\ndb: %f\n", get_spr(data.spr, 2, 'x'));
-	
-	//ft_printf("\n%d\n", data.spr_sum);
-	//ft_printf("\n%d\n", data.spr->posx);
 
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");

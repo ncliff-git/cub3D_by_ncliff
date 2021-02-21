@@ -13,7 +13,9 @@ SRC		=	main.c		\
 			parser_map.c\
 			valid_map.c\
 			parser_texture.c\
-			parser_color.c
+			parser_color.c\
+			spr_list.c\
+			sprite.c
 
 CC		= gcc
 
@@ -32,7 +34,7 @@ FT_PRINTF = ft_printf/libftprintf.a
 all: $(OUT_DIR) $(LIBFT) $(FT_PRINTF) $(NAME)
 
 obj/%.o:	src/%.c
-	@$(CC) -Wall -Wextra -Werror -Imlxl -c $< -o $@
+	@$(CC) -g -Wall -Wextra -Werror -Imlxl -c $< -o $@
 
 $(NAME):	$(OBJ) $(LIBFT) $(FT_PRINTF)
 	@$(CC) $(OBJ) mlx/libmlx.a $(LIBFT) $(FT_PRINTF) -framework OpenGL -framework AppKit -o $(NAME)
