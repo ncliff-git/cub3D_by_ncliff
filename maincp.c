@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 20:21:29 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/22 18:25:57 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	verLine(t_data *info, int x, int y1, int y2, int color)
 	y = y1;
 	while (y <= y2)
 	{
-		my_mlx_pixel_put(&info->img_mp, x, y, color);
+		pixel_put(&info->img_mp, x, y, color);
 		y++;
 	}
 }
@@ -92,10 +92,10 @@ void render3D(t_data *data)
 			data->player.pwdist = (data->player.mapy - data->player.posy + (1 - data->player.stepy) / 2) / rayDirY;
 		data->player.lineh = (int)(data->file.resy / data->player.pwdist);
 		int drawStart = -data->player.lineh / 2 + data->file.resy / 2;
-		if(drawStart < 0)
+		if (drawStart < 0)
 			drawStart = 0;
 		int drawEnd = data->player.lineh / 2 + data->file.resy / 2;
-		if(drawEnd >= data->file.resy)
+		if (drawEnd >= data->file.resy)
 			drawEnd = data->file.resy - 1;
 
 		//
@@ -110,11 +110,11 @@ void render3D(t_data *data)
 			wallX = data->player.posx + data->player.pwdist * rayDirX;
 		wallX -= floor((wallX));
 
-		int texX = (int)(wallX * (double)TEX_WIDTH);
+		int texX = (int)(wallX * (double)TEX_WH);
 		if (data->player.side == 0 && rayDirX > 0)
-			texX = TEX_WIDTH - texX - 1;
+			texX = TEX_WH - texX - 1;
 		if (data->player.side == 1 && rayDirY < 0)
-			texX = TEX_WIDTH - texX - 1;
+			texX = TEX_WH - texX - 1;
 
 		double step = 1.0 * TEX_HEIGHT / data->player.lineh;
 
@@ -124,7 +124,7 @@ void render3D(t_data *data)
 			//int texY = (int)texPos & (TEX_HEIGHT - 1);
 			write(1, "1\n", 2);
 			texPos += step;
-			my_mlx_pixel_put(&data->img_mp, x, y, my_mlx_pixel_take(&data->no_tx, x, y));
+			pixel_put(&data->img_mp, x, y, pixel_take(&data->no_tx, x, y));
 			//
 		}
 
@@ -152,18 +152,18 @@ int mlx_texture(t_data *data)
 	int height;
 
 	write(1, "1\n", 2);
-	if (!(data->no_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.no_ture, &width, &height)))
+	if (!(NO_IMG = mlx_xpm_file_to_image(D_MLX, NO_FL, &width, &height)))
 		return (-1);
-	data->no_tx.addr = mlx_get_data_addr(data->no_tx.img, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);	
-	if (!(data->so_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.so_ture, &width, &height)))
+	NO_ADDR = mlx_get_data_addr(NO_IMG, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);	
+	if (!(SO_IMG = mlx_xpm_file_to_image(D_MLX, SO_FL, &width, &height)))
 		return (-1);
-	data->so_tx.addr = mlx_get_data_addr(data->so_tx.img, &data->so_tx.bits_per_pixel, &data->so_tx.line_length, &data->so_tx.endian);		
-	if (!(data->we_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.we_ture, &width, &height)))
+	SO_ADDR = mlx_get_data_addr(SO_IMG, &data->so_tx.bits_per_pixel, &data->so_tx.line_length, &data->so_tx.endian);		
+	if (!(WE_IMG = mlx_xpm_file_to_image(D_MLX, data->file.we_ture, &width, &height)))
 		return (-1);
-	data->we_tx.addr = mlx_get_data_addr(data->we_tx.img, &data->we_tx.bits_per_pixel, &data->we_tx.line_length, &data->we_tx.endian);		
-	if (!(data->ea_tx.img = mlx_xpm_file_to_image(data->mlx, data->file.ea_ture, &width, &height)))
+	WE_ADDR = mlx_get_data_addr(WE_IMG, &data->we_tx.bits_per_pixel, &data->we_tx.line_length, &data->we_tx.endian);		
+	if (!(EA_IMG = mlx_xpm_file_to_image(D_MLX, data->file.ea_ture, &width, &height)))
 		return (-1);
-	data->ea_tx.addr = mlx_get_data_addr(data->ea_tx.img, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);		
+	EA_ADDR = mlx_get_data_addr(EA_IMG, &data->ea_tx.bits_per_pixel, &data->ea_tx.line_length, &data->ea_tx.endian);		
 	return (1);
 }
 
@@ -179,9 +179,9 @@ int rendersky(t_data *data)
 		while (y < data->file.resy)
 		{
 			if (data->file.resy/2 > y)
-				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.f[0], data->file.f[1], data->file.f[2]));
+				pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.f[0], data->file.f[1], data->file.f[2]));
 			else if (data->file.resy > y)
-				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.c[0], data->file.c[1], data->file.c[2]));
+				pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.c[0], data->file.c[1], data->file.c[2]));
 			y++;
 		}
 		y = 0;
@@ -193,8 +193,8 @@ int rendersky(t_data *data)
 int render(t_data *data)
 {
 	//Меньше лагов ели не дистроить//
-	//mlx_destroy_image(data->mlx, data->img_mp.img);
-	//data->img_mp.img = mlx_new_image(data->mlx, data->file.resx, data->file.resy); // Сделать define
+	//mlx_destroy_image(D_MLX, data->img_mp.img);
+	//data->img_mp.img = mlx_new_image(D_MLX, data->file.resx, data->file.resy); // Сделать define
 	rendersky(data);
 	render3D(data);
 	return (1);
@@ -235,7 +235,7 @@ int data_constr(t_data *data)
 	return (1);
 }
 
-int my_mlx_pixel_take(t_img *img, int x, int y)
+int pixel_take(t_img *img, int x, int y)
 {
 	int color;
 	char	*dst;
@@ -245,7 +245,7 @@ int my_mlx_pixel_take(t_img *img, int x, int y)
 	return (color);
 }
 
-void my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -258,8 +258,8 @@ int	loop_hook(t_data *data)
 	write(1, "1\n", 2);
 	render(data);
 	key_move(data);
-	mlx_clear_window(data->mlx, data->mlx_win);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_mp.img, 0, 0);
+	mlx_clear_window(D_MLX, D_MLX_win);
+	mlx_put_image_to_window(D_MLX, D_MLX_win, data->img_mp.img, 0, 0);
 	return (1);
 }
 
@@ -338,7 +338,7 @@ void	verLine(t_data *info, int x, int y1, int y2, int color)
 	y = y1;
 	while (y <= y2)
 	{
-		my_mlx_pixel_put(&info->img_mp, x, y, color);
+		pixel_put(&info->img_mp, x, y, color);
 		y++;
 	}
 }
@@ -402,10 +402,10 @@ void render3D(t_data *data)
 			data->player.pwdist = (data->player.mapy - data->player.posy + (1 - data->player.stepy) / 2) / rayDirY;
 		data->player.lineh = (int)(data->file.resy / data->player.pwdist);
 		int drawStart = -data->player.lineh / 2 + data->file.resy / 2;
-		if(drawStart < 0)
+		if (drawStart < 0)
 			drawStart = 0;
 		int drawEnd = data->player.lineh / 2 + data->file.resy / 2;
-		if(drawEnd >= data->file.resy)
+		if (drawEnd >= data->file.resy)
 			drawEnd = data->file.resy - 1;
 		int	color;
 		if (WORLD_MAP[data->player.mapx][data->player.mapy] == '1')
@@ -435,9 +435,9 @@ int rendersky(t_data *data)
 		while (y < data->file.resy)
 		{
 			if (data->file.resy/2 > y)
-				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.f[0], data->file.f[1], data->file.f[2]));
+				pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.f[0], data->file.f[1], data->file.f[2]));
 			else if (data->file.resy > y)
-				my_mlx_pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.c[0], data->file.c[1], data->file.c[2]));
+				pixel_put(&data->img_mp, x, y, create_trgb(0, data->file.c[0], data->file.c[1], data->file.c[2]));
 			y++;
 		}
 		y = 0;
@@ -449,8 +449,8 @@ int rendersky(t_data *data)
 int render(t_data *data)
 {
 	//Меньше лагов ели не дистроить//
-	//mlx_destroy_image(data->mlx, data->img_mp.img);
-	//data->img_mp.img = mlx_new_image(data->mlx, data->file.resx, data->file.resy); // Сделать define
+	//mlx_destroy_image(D_MLX, data->img_mp.img);
+	//data->img_mp.img = mlx_new_image(D_MLX, data->file.resx, data->file.resy); // Сделать define
 	rendersky(data);
 	render3D(data);
 	return (1);
@@ -491,7 +491,7 @@ int data_constr(t_data *data)
 	return (1);
 }
 
-void my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -503,8 +503,8 @@ int	loop_hook(t_data *data)
 {
 	render(data);
 	key_move(data);
-	mlx_clear_window(data->mlx, data->mlx_win);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_mp.img, 0, 0);
+	mlx_clear_window(D_MLX, D_MLX_win);
+	mlx_put_image_to_window(D_MLX, D_MLX_win, data->img_mp.img, 0, 0);
 	return (1);
 }
 

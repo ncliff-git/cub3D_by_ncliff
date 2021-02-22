@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/21 20:39:20 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/22 21:08:10 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,58 @@
 # define PI2 PI/2
 # define PI3 PI/3
 # define WORLD_MAP data->file.map
-# define TEX_WIDTH 64
-# define TEX_HEIGHT 64
+# define TEX_WH 256
+# define TEX_HEIGHT 256
 
+# define D_MLX data->mlx
+
+# define NO_IMG data->no_tx.img
+# define NO_ADDR data->no_tx.addr
+# define NO_FL data->file.no_ture
+# define NO_X data->no_tx.sp_x
+# define NO_Y data->no_tx.sp_y
+# define NO_PX_BIT data->no_tx.bits_per_pixel
+# define NO_LINE_L data->no_tx.line_length
+# define NO_ENDIAN data->no_tx.endian
+
+# define SO_IMG data->so_tx.img
+# define SO_ADDR data->so_tx.addr
+# define SO_FL data->file.so_ture
+# define SO_X data->so_tx.sp_x
+# define SO_Y data->so_tx.sp_y
+# define SO_PX_BIT data->so_tx.bits_per_pixel
+# define SO_LINE_L data->so_tx.line_length
+# define SO_ENDIAN data->so_tx.endian
+
+# define WE_IMG data->we_tx.img
+# define WE_ADDR data->we_tx.addr
+# define WE_FL data->file.we_ture
+# define WE_X data->we_tx.sp_x
+# define WE_Y data->we_tx.sp_y
+# define WE_PX_BIT data->we_tx.bits_per_pixel
+# define WE_LINE_L data->we_tx.line_length
+# define WE_ENDIAN data->we_tx.endian
+
+# define EA_IMG data->ea_tx.img
+# define EA_ADDR data->ea_tx.addr
+# define EA_FL data->file.ea_ture
+# define EA_X data->ea_tx.sp_x
+# define EA_Y data->ea_tx.sp_y
+# define EA_PX_BIT data->ea_tx.bits_per_pixel
+# define EA_LINE_L data->ea_tx.line_length
+# define EA_ENDIAN data->ea_tx.endian
+
+# define S_IMG data->s_tx.img
+# define S_ADDR data->s_tx.addr
+# define S_FL data->file.s_ture
+# define S_X data->s_tx.sp_x
+# define S_Y data->s_tx.sp_y
+# define S_PX_BIT data->s_tx.bits_per_pixel
+# define S_LINE_L data->s_tx.line_length
+# define S_ENDIAN data->s_tx.endian
+
+# define F_CL data->file.f
+# define C_CL data->file.c
 # define RES_X data->file.resx
 # define RES_Y data->file.resy
 # define P_CAM data->player.cam
@@ -39,10 +88,10 @@
 # define PLAN_Y data->player.plany
 # define DIR_X data->player.dirx
 # define DIR_Y data->player.diry
-# define P_MAP_X data->player.mapx
-# define P_MAP_Y data->player.mapy
-# define R_DIR_X data->player.raydirx
-# define R_DIR_Y data->player.raydiry
+# define P_MAPX data->player.mapx
+# define P_MAPY data->player.mapy
+# define R_DIRX data->player.raydirx
+# define R_DIRY data->player.raydiry
 # define D_DIST_X data->player.ddistx
 # define D_DIST_Y data->player.ddisty
 # define STEP_X data->player.stepx
@@ -63,15 +112,15 @@
 # define INV_DET data->player.inv_det
 # define TRAN_X data->player.tran_x
 # define TRAN_Y data->player.tran_y
-# define SPR_SCR_X data->player.spr_scr_x
+# define SPR_X data->player.spr_scr_x
 # define SPR_HT data->player.spr_height
 # define SPR_WT data->player.spr_widht
-# define DR_SP_ST_Y data->player.dr_st_sp_y
+# define DR_SP_ND_Y_ST_Y data->player.dr_st_sp_y
 # define DR_SP_ND_Y data->player.dr_nd_sp_y
-# define DR_SP_ST_X data->player.dr_st_sp_x
-# define DR_SP_ND_X data->player.dr_nd_sp_x
-# define SP_TEX_X data->player.sp_tex_x
-# define SP_TEX_Y data->player.sp_tex_y
+# define DR_SP_ND_Y_ST_X data->player.dr_st_sp_x
+# define DR_SP_ND_Y_ND_X data->player.dr_nd_sp_x
+# define SP_TX data->player.sp_tex_x
+# define SP_TY data->player.sp_tex_y
 # define SP_CR data->player.color_sp
 # define WALL_X data->player.wall_x
 # define TEX_X data->player.tex_x
@@ -88,6 +137,8 @@ typedef struct		s_img
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
+	int				sp_x;
+	int				sp_y;
 }					t_img;
 
 typedef struct		s_flag
@@ -116,6 +167,7 @@ typedef struct		s_flag
 */
 typedef struct		s_player
 {
+	int				h;
 	double			posx;
 	double			posy;
 	double			dirx;
@@ -221,16 +273,18 @@ typedef struct		s_pair
 
 /////////////////////////////////////////////////
 
-void				my_mlx_pixel_put(t_img *img, int x, int y, int color);
-unsigned int		my_mlx_pixel_take(t_img *img, int x, int y);
+int					mlx_texture(t_data *data);
+int					create_trgb(int t, int r, int g, int b);
+void				pixel_put(t_img *img, int x, int y, int color);
+unsigned int		pixel_take(t_img *img, int x, int y);
 int					key_press(int keycode, t_data *img);
 int					key_realize(int keycode, t_data *img);
 int					key_move(t_data *img);
-int					move_rot(t_data *img, int rot);
-int					move_up(t_data *img);
-int					move_dw(t_data *img);
-int					move_rt(t_data *img);
-int					move_lt(t_data *img);
+int					move_rot(t_data *data, int rot);
+int					move_up(t_data *data);
+int					move_dw(t_data *data);
+int					move_rt(t_data *data);
+int					move_lt(t_data *data);
 int					drowline(int x, int colorr, t_data *data);
 int					parser(t_data *data);
 int					pars_res(t_data *data, char *line);
@@ -249,6 +303,16 @@ double				get_spr(t_spr *data, int i, int ch);
 void				sortSprites(int *order, double *dist, int amount);
 
 /////////////////////////////////////////////////
+
+int rendersky(t_data *data);
+void ray_math_1(t_data *data, int x);
+void ray_math_2(t_data *data);
+void wall_side(t_data *data);
+void render_wall(t_data *data, int x);
+
+void sort_sp(t_data *data);
+void sp_math(t_data *data, int i);
+void render_sp(t_data *data, double **zBuffer);
 
 
 #endif

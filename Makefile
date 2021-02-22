@@ -15,7 +15,10 @@ SRC		=	main.c		\
 			parser_texture.c\
 			parser_color.c\
 			spr_list.c\
-			sprite.c
+			sprite.c\
+			render_1.c\
+			render_2.c\
+			render_spr.c
 
 CC		= gcc
 

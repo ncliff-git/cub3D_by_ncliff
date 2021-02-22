@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 19:17:38 by ncliff            #+#    #+#             */
-/*   Updated: 2021/01/30 17:03:54 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/22 15:42:11 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int drowline(int x, int colorr, t_data *data)
 	while (y++ < data->file.resy - 1)
 	{
 		if (y < data->player.drawstart && y > data->player.drawend)
-			my_mlx_pixel_put(&data->img_mp, x, y, colorr);
+			pixel_put(&data->img_mp, x, y, colorr);
 	}
 	return (1);
 }
