@@ -1,12 +1,12 @@
 R 1280 720
-NO ./Texture/1567106726159459734.xpm
-SO ./Texture/MS.xpm
-    WE ./Texture/JR.xpm
-EA ./Texture/KR.xpm
-S  ./Texture/STAS.xpm
+NO Texture/CyberpunkTexture/WALL_1.xpm
+SO Texture/CyberpunkTexture/WALL_2.xpm
+WE Texture/CyberpunkTexture/WALL_3.xpm
+EA Texture/CyberpunkTexture/WALL_4.xpm
+S  Texture/CyberpunkTexture/SPRITE.xpm
  
-F 102,178,255   
-C 0,102,51	
+F 102, 0,51   
+C 0, 76, 153	
 
 
 

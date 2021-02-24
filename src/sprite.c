@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 13:51:27 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/20 15:23:03 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/24 18:33:54 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ double		get_spr(t_spr *data, int i, int ch)
 {
 	int		x;
 	t_spr	*first;
-	
+
 	x = 0;
 	first = data;
 	while (i > x)
@@ -72,15 +72,17 @@ double		get_spr(t_spr *data, int i, int ch)
 	return (0);
 }
 
-/////////////////////////////////////////////////
-
-void	sort_order(t_pair *orders, int amount)
+void		sort_order(t_pair *orders, int amount)
 {
+	int		i;
+	int		j;
 	t_pair	tmp;
 
-	for (int i = 0; i < amount; i++)
+	i = 0;
+	while (i < amount)
 	{
-		for (int j = 0; j < amount - 1; j++)
+		j = 0;
+		while (j < amount - 1)
 		{
 			if (orders[j].first > orders[j + 1].first)
 			{
@@ -91,45 +93,34 @@ void	sort_order(t_pair *orders, int amount)
 				orders[j + 1].first = tmp.first;
 				orders[j + 1].second = tmp.second;
 			}
+			j++;
 		}
+		i++;
 	}
+	return ;
 }
 
-void	sortSprites(int *order, double *dist, int amount)
+void		sort_sprites(int *order, double *dist, int amount)
 {
 	t_pair	*sprites;
+	int		i;
 
-	//std::vector<std::pair<double, int>> sprites(amount);
+	i = 0;
 	sprites = (t_pair*)malloc(sizeof(t_pair) * amount);
-	for (int i = 0; i < amount; i++)
+	while (i < amount)
 	{
 		sprites[i].first = dist[i];
 		sprites[i].second = order[i];
+		i++;
 	}
 	sort_order(sprites, amount);
-	//std::sort(sprites.begin(), sprites.end());
-	for (int i = 0; i < amount; i++)
+	i = 0;
+	while (i < amount)
 	{
 		dist[i] = sprites[amount - i - 1].first;
 		order[i] = sprites[amount - i - 1].second;
+		i++;
 	}
 	free(sprites);
+	return ;
 }
-
-/////////////////////////////////////////////////
-
-
-
-//void sortSprites(int* order, double* dist, int amount)
-//{
-//  vector<pair<double, int>> sprites(amount);
-//  for(int i = 0; i < amount; i++) {
-//    sprites[i].first = dist[i];
-//    sprites[i].second = order[i];
-//  }
-//  sort(sprites.begin(), sprites.end());
-//  for(int i = 0; i < amount; i++) {
-//    dist[i] = sprites[amount - i - 1].first;
-//    order[i] = sprites[amount - i - 1].second;
-//  }
-//}

@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/22 21:08:10 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/24 21:05:07 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@
 # define S_LINE_L data->s_tx.line_length
 # define S_ENDIAN data->s_tx.endian
 
+# define PL_H data->player.h
+# define PL_W data->player.w
 # define F_CL data->file.f
 # define C_CL data->file.c
 # define RES_X data->file.resx
@@ -90,8 +92,8 @@
 # define DIR_Y data->player.diry
 # define P_MAPX data->player.mapx
 # define P_MAPY data->player.mapy
-# define R_DIRX data->player.raydirx
-# define R_DIRY data->player.raydiry
+# define R_DIRX data->player.rdirx
+# define R_DIRY data->player.rdiry
 # define D_DIST_X data->player.ddistx
 # define D_DIST_Y data->player.ddisty
 # define STEP_X data->player.stepx
@@ -168,6 +170,7 @@ typedef struct		s_flag
 typedef struct		s_player
 {
 	int				h;
+	int				w;
 	double			posx;
 	double			posy;
 	double			dirx;
@@ -175,8 +178,8 @@ typedef struct		s_player
 	double			planx;
 	double			plany;
 	double			cam;
-	double			raydirx;
-	double			raydiry;
+	double			rdirx;
+	double			rdiry;
 	int				mapx;
 	int				mapy;
 	double			sdistx;
@@ -300,19 +303,19 @@ double				get_spr(t_spr *data, int i, int ch);
 
 /////////////////////////////////////////////////
 
-void				sortSprites(int *order, double *dist, int amount);
+void				sort_sprites(int *order, double *dist, int amount);
 
 /////////////////////////////////////////////////
 
 int rendersky(t_data *data);
-void ray_math_1(t_data *data, int x);
-void ray_math_2(t_data *data);
-void wall_side(t_data *data);
+void ray_math(t_data *data, t_player *pl, int x);
+void dda_math(t_data *data, t_player *pl);
+void wall_side(t_data *data, t_player *pl);
 void render_wall(t_data *data, int x);
 
 void sort_sp(t_data *data);
-void sp_math(t_data *data, int i);
-void render_sp(t_data *data, double **zBuffer);
+void	sp_math(t_data *data, t_player *pl, int i);
+void	render_sp(t_data *data, t_player *pl, double **z_b);
 
 
 #endif

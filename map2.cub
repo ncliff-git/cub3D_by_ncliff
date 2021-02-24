@@ -1,9 +1,9 @@
 R 1280 720
-NO ./Texture/1567106726159459734.xpm
-SO ./Texture/MS.xpm
-    WE ./Texture/JR.xpm
-EA ./Texture/KR.xpm
-S  ./Texture/STAS.xpm
+NO Texture/TreeTexture/WALL_1.xpm
+SO Texture/TreeTexture/WALL_2.xpm
+WE Texture/TreeTexture/WALL_3.xpm
+EA Texture/TreeTexture/WALL_4.xpm
+S  Texture/TreeTexture/SPRITE.xpm
  
 F 102,178,255   
 C 0,102,51	

@@ -5,7 +5,6 @@ HEADER	= includes/
 SRC		=	main.c		\
 			key_check.c	\
 			movement.c	\
-			render_2d.c	\
 			get_next_line.c\
 			get_next_line_utils.c\
 			parser_file.c \
@@ -16,8 +15,8 @@ SRC		=	main.c		\
 			parser_color.c\
 			spr_list.c\
 			sprite.c\
-			render_1.c\
-			render_2.c\
+			render_wall_1.c\
+			render_wall_2.c\
 			render_spr.c
 
 CC		= gcc
