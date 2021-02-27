@@ -6,33 +6,47 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/24 21:05:24 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/27 16:32:01 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
+void			error_msg_exit(char *str)
+{
+	int i;
+	
+	i = ft_strlen(str);
+	write(1, "\033[0;31mError\n", 13);
+	if (i > 0)
+	{
+		write(1, str, i);
+		write(1, "\n", 1);
+	}
+	exit(1);
+}
+
 int				mlx_texture(t_data *data)
 {
 	NO_IMG = mlx_new_image(D_MLX, TEX_WH, TEX_HEIGHT);
 	if (!(NO_IMG = mlx_xpm_file_to_image(D_MLX, NO_FL, &NO_X, &NO_Y)))
-		return (-1);
+		error_msg_exit("Texture");
 	NO_ADDR = mlx_get_data_addr(NO_IMG, &NO_PX_BIT, &NO_LINE_L, &NO_ENDIAN);
 	SO_IMG = mlx_new_image(D_MLX, TEX_WH, TEX_HEIGHT);
 	if (!(SO_IMG = mlx_xpm_file_to_image(D_MLX, SO_FL, &SO_X, &SO_Y)))
-		return (-1);
+		error_msg_exit("Texture");
 	SO_ADDR = mlx_get_data_addr(SO_IMG, &SO_PX_BIT, &SO_LINE_L, &SO_ENDIAN);
 	WE_IMG = mlx_new_image(D_MLX, TEX_WH, TEX_HEIGHT);
 	if (!(WE_IMG = mlx_xpm_file_to_image(D_MLX, WE_FL, &WE_X, &WE_Y)))
-		return (-1);
+		error_msg_exit("Texture");
 	WE_ADDR = mlx_get_data_addr(WE_IMG, &WE_PX_BIT, &WE_LINE_L, &WE_ENDIAN);
 	EA_IMG = mlx_new_image(D_MLX, TEX_WH, TEX_HEIGHT);
 	if (!(EA_IMG = mlx_xpm_file_to_image(D_MLX, EA_FL, &EA_X, &EA_Y)))
-		return (-1);
+		error_msg_exit("Texture");
 	EA_ADDR = mlx_get_data_addr(EA_IMG, &EA_PX_BIT, &EA_LINE_L, &EA_ENDIAN);
 	S_IMG = mlx_new_image(D_MLX, TEX_WH, TEX_HEIGHT);
 	if (!(S_IMG = mlx_xpm_file_to_image(D_MLX, S_FL, &S_X, &S_Y)))
-		return (-1);
+		error_msg_exit("Sprite");
 	S_ADDR = mlx_get_data_addr(S_IMG, &S_PX_BIT, &S_LINE_L, &S_ENDIAN);
 	return (1);
 }
@@ -147,21 +161,16 @@ int				main(int argc, char **argv)
 {
 	t_data	data;
 
+	//error_msg_exit("Mmmmm");
 	argv[argc] = NULL;
 	data.file.fd = open(argv[1], O_RDONLY);
 	data_constr(&data);
 	if (parser(&data) == -1)
-	{
-		write(1, "Error\n", 6);
-		return (0);
-	}
+		error_msg_exit("Map");
 	if (data.file.f[0] == -1 || data.file.f[1] == -1 || data.file.f[2] == -1
 	|| data.file.c[0] == -1 || data.file.c[1] == -1 || data.file.c[2] == -1
 	|| data.file.resx == -1 || data.file.resy == -1)
-	{
-		write(1, "Error\n", 6);
-		return (0);
-	}
+		error_msg_exit("Color");
 	data.spr_sum = malloc_spr(&data);
 	data.spriteDistance = (double *)malloc(sizeof(double) * data.spr_sum);
 	data.spriteOrder = (int *)malloc(sizeof(int) * data.spr_sum);
@@ -169,11 +178,7 @@ int				main(int argc, char **argv)
 	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");
 	data.img_mp.img = mlx_new_image(data.mlx, data.file.resx, data.file.resy);
 	data.img_mp.addr = mlx_get_data_addr(data.img_mp.img, &data.img_mp.bits_per_pixel, &data.img_mp.line_length, &data.img_mp.endian);
-	if (mlx_texture(&data) == -1)
-	{
-		write(1, "Error\n", 6);
-		return (0);
-	}
+	mlx_texture(&data);
 	mlx_hook(data.mlx_win, 2, 1L << 0, key_press, &data);
 	mlx_key_hook(data.mlx_win, key_realize, &data);
 	mlx_loop_hook(data.mlx, &loop_hook, &data);

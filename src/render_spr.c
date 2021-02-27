@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:58:50 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/24 21:26:22 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/27 15:44:27 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,16 @@ void	sp_math(t_data *data, t_player *pl, int i)
 	return ;
 }
 
-void	sp_pixel_put(t_data *data, t_player *pl, int *y, int *d, int stpe)
+void	sp_pixel_put(t_data *data, int *y, int *d, int stpe)
 {
-	*d = (*y) * 256 - data->file.resy * 128 + pl->spr_height * 128;
-	pl->sp_tex_y = ((*d * data->s_tx.sp_y) / pl->spr_height) / 256;
-	pl->color_sp = pixel_take(&data->s_tx, pl->sp_tex_x, pl->sp_tex_y);
-	if ((pl->color_sp & 0x00FFFFFF) != 0)
-		pixel_put(&data->img_mp, stpe, *y, pl->color_sp);
+	*d = (*y) * 256 - data->file.resy * 128 + data->player.spr_height * 128;
+	data->player.sp_tex_y = ((*d * data->s_tx.sp_y)
+	/ data->player.spr_height) / 256;
+	data->player.color_sp = pixel_take(&data->s_tx,
+	data->player.sp_tex_x, data->player.sp_tex_y);
+	if ((data->player.color_sp & 0x00FFFFFF) != 0)
+		pixel_put(&data->img_mp, stpe, *y, data->player.color_sp);
 	(*y)++;
-
 }
 
 void	render_sp(t_data *data, t_player *pl, double **z_b)
@@ -80,17 +81,12 @@ void	render_sp(t_data *data, t_player *pl, double **z_b)
 		y = pl->dr_st_sp_y;
 		pl->sp_tex_x = (int)(256 * (stpe - (-pl->spr_widht / 2 + pl->spr_scr_x))
 		* data->s_tx.sp_x / pl->spr_widht) / 256;
-		if (pl->tran_y > 0 && stpe > 0 && stpe < data->file.resx && pl->tran_y < (*z_b)[stpe])
+		if (pl->tran_y > 0 && stpe > 0
+		&& stpe < data->file.resx && pl->tran_y < (*z_b)[stpe])
 		{
 			while (y < pl->dr_nd_sp_y)
 			{
-				sp_pixel_put(data, &data->player, &y, &d, stpe);
-				//d = (y) * 256 - data->file.resy * 128 + pl->spr_height * 128;
-				//pl->sp_tex_y = ((d * data->s_tx.sp_y) / pl->spr_height) / 256;
-				//pl->color_sp = pixel_take(&data->s_tx, pl->sp_tex_x, pl->sp_tex_y);
-				//if ((pl->color_sp & 0x00FFFFFF) != 0)
-				//	pixel_put(&data->img_mp, stpe, y, pl->color_sp);
-				//y++;
+				sp_pixel_put(data, &y, &d, stpe);
 			}
 		}
 		stpe++;

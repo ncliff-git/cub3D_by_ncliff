@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/24 21:05:07 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/27 16:36:50 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,7 @@ typedef struct		s_data
 	t_player		player;
 	t_flag			flags;
 	t_map			file;
+	int				map_check;
 }					t_data;
 
 /////////////////////////////////////////////////
@@ -314,8 +315,9 @@ void wall_side(t_data *data, t_player *pl);
 void render_wall(t_data *data, int x);
 
 void sort_sp(t_data *data);
-void	sp_math(t_data *data, t_player *pl, int i);
-void	render_sp(t_data *data, t_player *pl, double **z_b);
+void sp_math(t_data *data, t_player *pl, int i);
+void render_sp(t_data *data, t_player *pl, double **z_b);
 
+void error_msg_exit(char *str);
 
 #endif

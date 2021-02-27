@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:06:20 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/24 20:52:40 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/27 16:52:59 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,15 @@ static int		pars_2(t_data *data, char *line)
 	else if (*line == 'C')
 		return (pars_color(data->file.c, &line[1]));
 	else if (*line == '1')
-		return ((pars_map(data) == 1) ? 2 : -1);
+		return ((pars_map(data) == 1) ? 2 : -2);
 	else if (*line == '\0')
 		return (1);
 	else
+	{
+		write (1, (line), 1);
+		write (1, "\n", 1);
 		return (-1);
+	}
 	return (1);
 }
 
@@ -56,6 +60,8 @@ static int		pars_1(t_data *data)
 		while (line[i] == ' ' || line[i] == '\t')
 			i++;
 		res = pars_2(data, &line[i]);
+		if (res == -2)
+			error_msg_exit("Map");
 		if (res == -1)
 		{
 			data->file.file = first;
@@ -89,10 +95,12 @@ int				parser(t_data *data)
 	data->file.file->next = ft_lstnew(line);
 	data->file.file = first;
 	if (pars_1(data) == -1)
-		return (-1);
+		error_msg_exit("None info");
+	if (data->map_check != 1)
+		error_msg_exit("Map");
 	// тут ошибка
 	ft_lstclear(&data->file.file, free);
 	if (line != NULL)
-		free(line);
+		free(line);	
 	return ((valid_map(data) == -1) ? -1 : 1);
 }

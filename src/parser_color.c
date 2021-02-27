@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 19:00:05 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/21 15:01:04 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/27 16:15:41 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,25 @@ int			pars_color(int *data, char *line)
 
 	i = 0;
 	if (*line != ' ')
-		return (-1);
+		error_msg_exit("Color");
 	while (line[i] == ' ')
 		i++;
 	if ((i = atoi_iter_mini(data, i, 0, line)) == -1)
-		return (-1);
+		error_msg_exit("Color");
 	if ((i = sp_comma_skip(line, i)) == -1)
-		return (-1);
+		error_msg_exit("Color");
 	if ((i = atoi_iter_mini(data, i, 1, line)) == -1)
-		return (-1);
+		error_msg_exit("Color");
 	if ((i = sp_comma_skip(line, i)) == -1)
-		return (-1);
+		error_msg_exit("Color");
 	if ((i = atoi_iter_mini(data, i, 2, line)) == -1)
-		return (-1);
+		error_msg_exit("Color");
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (line[i] != '\0')
-		return (-1);
+		error_msg_exit("Color");
 	if ((data[0] > 255 || data[1] > 255 || data[2] > 255)
 	|| (data[0] < 0 || data[1] < 0 || data[2] < 0))
-		return (-1);
+		error_msg_exit("Color");
 	return (1);
 }

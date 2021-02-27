@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:58:01 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/21 13:52:06 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/27 16:36:57 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int			pars_map(t_data *data)
 
 	x = 0;
 	y = 0;
+	data->map_check = 1;
 	first = data->file.file;
+	if (data->file.file->next == NULL)
+		error_msg_exit("Map");
 	while (data->file.file->next)
 	{
 		if (ft_strlen((char*)data->file.file->content) > (size_t)x)
