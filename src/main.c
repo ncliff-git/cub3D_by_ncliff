@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 17:42:58 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 20:49:36 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,11 @@ int				main(int argc, char **argv)
 	|| data.file.resx == -1 || data.file.resy == -1)
 		error_msg_exit("Color");
 	data.spr_sum = malloc_spr(&data);
+
+
+	// тест парсера
+	exit(1);
+	// тест парсера
 	data.spriteDistance = (double *)malloc(sizeof(double) * data.spr_sum);
 	data.spriteOrder = (int *)malloc(sizeof(int) * data.spr_sum);
 	data.mlx = mlx_init();

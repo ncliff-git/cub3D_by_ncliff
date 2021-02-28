@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:50:39 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 17:32:57 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 21:15:06 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,11 @@ int			valid_map(t_data *data)
 	}
 	if (!(close_map(data, '0', ' ') && close_map(data, 'N', ' ')
 	&& close_map(data, 'S', ' ') && close_map(data, 'E', ' ')
-	&& close_map(data, 'W', ' ')))
+	&& close_map(data, 'W', ' ') && close_map(data, '2', ' ')))
 		return (-1);
 	if (!(close_map(data, '0', '\0') && close_map(data, 'N', '\0')
 	&& close_map(data, 'S', '\0') && close_map(data, 'E', '\0')
-	&& close_map(data, 'W', '\0')))
+	&& close_map(data, 'W', '\0') && close_map(data, '2', '\0')))
 		return (-1);
 	if (pos_map(data) == 0)
 		return (-1);
