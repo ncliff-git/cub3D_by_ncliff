@@ -21,6 +21,8 @@ SRC		=	main.c		\
 
 CC		= gcc
 
+INCLUDE = -Imlx -Iincludes
+
 SRC_DIR = $(addprefix src/, $(SRC))
 
 OBJ		= $(patsubst src/%.c, obj/%.o, $(SRC_DIR))
@@ -36,10 +38,10 @@ FT_PRINTF = ft_printf/libftprintf.a
 all: $(OUT_DIR) $(LIBFT) $(FT_PRINTF) $(NAME)
 
 obj/%.o:	src/%.c
-	@$(CC) -g -Wall -Wextra -Werror -Imlxl -c $< -o $@
+	@$(CC) -g -Wall -Wextra -Werror -Imlx -c $< -o $@
 
 $(NAME):	$(OBJ) $(LIBFT) $(FT_PRINTF)
-	@$(CC) $(OBJ) mlx/libmlx.a $(LIBFT) $(FT_PRINTF) -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(OBJ) mlx/libmlx.a $(INCLUDE) $(LIBFT) $(FT_PRINTF) -framework OpenGL -framework AppKit -o $(NAME)
 	@echo '$(cgreen)Good compile!'
 
 $(LIBFT):

@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 21:03:35 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 16:14:56 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:07:11 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	pars_r2(int *data, char *line)
 		while ((line[i] >= '0' && line[i] <= '9') && line[i] != '\0')
 		{
 			*data = *data * 10 + (line[i] - '0');
+			if (*data > 999999)
+				*data = 999999;
 			i++;
 		}
 		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\0')
@@ -39,8 +41,13 @@ static int	pars_r2(int *data, char *line)
 int			pars_res(t_data *data, char *line)
 {
 	int i;
+	int h;
+	int w;
 
 	i = 0;
+	mlx_get_screen_size(&w, &h);
+	if (data->file.res_ch != 0)
+		error_msg_exit("Double res");
 	data->file.resx = 0;
 	data->file.resy = 0;
 	if ((i = pars_r2(&data->file.resx, line)) == -1)
@@ -53,9 +60,9 @@ int			pars_res(t_data *data, char *line)
 			error_msg_exit("Res");
 		i++;
 	}
-	(data->file.resx < 640) ? data->file.resx = 640 : 0;
-	(data->file.resx > 2560) ? data->file.resx = 2560 : 0;
-	(data->file.resy < 480) ? data->file.resy = 480 : 0;
-	(data->file.resy > 1440) ? data->file.resy = 1440 : 0;
+	(data->file.resx == 0 || data->file.resy == 0) ? error_msg_exit("Res") : 0;
+	(data->file.resx > w) ? data->file.resx = w : 0;
+	(data->file.resy > h) ? data->file.resy = h : 0;
+	data->file.res_ch = 1;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 16:32:01 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 17:42:58 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,14 @@ int				data_constr(t_data *data)
 	C_CL[0] = -1;
 	C_CL[1] = -1;
 	C_CL[2] = -1;
+	data->file.res_ch = 0;
+	data->file.c_ch = 0;
+	data->file.f_ch = 0;
+	data->file.s_ch = 0;
+	data->file.no_ch = 0;
+	data->file.so_ch = 0;
+	data->file.we_ch = 0;
+	data->file.ea_ch = 0;
 	return (1);
 }
 
@@ -157,11 +165,16 @@ int				loop_hook(t_data *data)
 	return (1);
 }
 
+int				exit_funk(t_data *img)
+{
+	mlx_destroy_window(img->mlx, img->mlx_win);
+	exit(1);
+}
+
 int				main(int argc, char **argv)
 {
 	t_data	data;
 
-	//error_msg_exit("Mmmmm");
 	argv[argc] = NULL;
 	data.file.fd = open(argv[1], O_RDONLY);
 	data_constr(&data);
@@ -180,6 +193,7 @@ int				main(int argc, char **argv)
 	data.img_mp.addr = mlx_get_data_addr(data.img_mp.img, &data.img_mp.bits_per_pixel, &data.img_mp.line_length, &data.img_mp.endian);
 	mlx_texture(&data);
 	mlx_hook(data.mlx_win, 2, 1L << 0, key_press, &data);
+	mlx_hook(data.mlx_win, 17, 1L << 5, exit_funk, &data);
 	mlx_key_hook(data.mlx_win, key_realize, &data);
 	mlx_loop_hook(data.mlx, &loop_hook, &data);
 	mlx_loop(data.mlx);

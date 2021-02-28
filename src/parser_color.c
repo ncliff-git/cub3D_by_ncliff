@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 19:00:05 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 16:15:41 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:12:28 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static	int	atoi_iter_mini(int *data, int i, int dp, char *line)
 	while ((line[i] >= '0' && line[i] <= '9') && line[i] != '\0')
 	{
 		data[dp] = data[dp] * 10 + (line[i] - '0');
+		if (data[dp] > 255)
+			error_msg_exit("Color num");
 		i++;
 	}
 	return (i);

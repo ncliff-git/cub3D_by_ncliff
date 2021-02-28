@@ -6,15 +6,49 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:06:20 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 16:52:59 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:16:13 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
+static void	valid_param(t_data *data, char ch, char ch2)
+{
+	if (ch == 'N' && data->file.no_ch == 1)
+		error_msg_exit("Double no tex");
+	else if (ch == 'N')
+		data->file.no_ch = 1;
+	if (ch == 'S' && ch2 == 'O' && data->file.so_ch == 1)
+		error_msg_exit("Double so tex");
+	else if (ch == 'S' && ch2 == 'O')
+		data->file.so_ch = 1;
+	if (ch == 'W' && data->file.we_ch == 1)
+		error_msg_exit("Double we tex");
+	else if (ch == 'W')
+		data->file.we_ch = 1;
+	if (ch == 'E' && data->file.ea_ch == 1)
+		error_msg_exit("Double ea tex");
+	else if (ch == 'E')
+		data->file.ea_ch = 1;
+	if (ch == 'S' && ch2 == ' ' && data->file.s_ch == 1)
+		error_msg_exit("Double s tex");
+	else if (ch == 'S' && ch2 == ' ')
+		data->file.s_ch = 1;
+	if (ch == 'F' && data->file.f_ch == 1)
+		error_msg_exit("Double f tex");
+	else if (ch == 'F')
+		data->file.f_ch = 1;
+	if (ch == 'C' && data->file.c_ch == 1)
+		error_msg_exit("Double c tex");
+	else if (ch == 'C')
+		data->file.c_ch = 1;
+}
+
 static int		pars_2(t_data *data, char *line)
 {
 	data->file.szx = 4;
+
+	valid_param(data, *line, *(line + 1));
 	if (*line == 'R')
 		return (pars_res(data, &line[1]));
 	else if (*line == 'N')
@@ -58,7 +92,11 @@ static int		pars_1(t_data *data)
 		i = 0;
 		line = data->file.file->content;
 		while (line[i] == ' ' || line[i] == '\t')
+		{
 			i++;
+			if (line[i] == '\0')
+				error_msg_exit("Line sp");
+		}
 		res = pars_2(data, &line[i]);
 		if (res == -2)
 			error_msg_exit("Map");
@@ -99,7 +137,7 @@ int				parser(t_data *data)
 	if (data->map_check != 1)
 		error_msg_exit("Map");
 	// тут ошибка
-	ft_lstclear(&data->file.file, free);
+	ft_lstclear(&first, free);
 	if (line != NULL)
 		free(line);	
 	return ((valid_map(data) == -1) ? -1 : 1);

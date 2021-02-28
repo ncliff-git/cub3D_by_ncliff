@@ -6,13 +6,13 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:30:33 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 16:11:09 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:09:57 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-int		pars_texture(char **texture, char s, char *line)
+int			pars_texture(char **texture, char s, char *line)
 {
 	int	i;
 	int	len;

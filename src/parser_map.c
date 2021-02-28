@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:58:01 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 16:36:57 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/02/28 18:30:04 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	pars_map2(t_data *data, int x, int y)
 		data->file.map[i] = (char *)malloc(sizeof(char) * x + 2);
 		data->file.map[i] = ft_memset_m(data->file.map[i], ' ', x);
 		line = data->file.file->content;
+		if (line[0] == 0)
+			error_msg_exit("\\n");
 		while (line[p] != 0 && p < x)
 		{
 			data->file.map[i][p] = line[p];
