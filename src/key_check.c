@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 21:57:41 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/06 19:12:34 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 int		key_press(int keycode, t_data *img)
 {

@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:58:01 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 20:54:13 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 static void	*ft_memset_m(void *ptr, int volue, size_t num)
 {

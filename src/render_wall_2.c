@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 15:51:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 14:28:35 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 void	render_wall_1(t_data *data, t_player *pl, int x, int y)
 {

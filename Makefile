@@ -1,6 +1,6 @@
 NAME	= cub3D
 
-HEADER	= includes/
+HEADER	= includes/cub3d.h
 
 SRC		=	main.c		\
 			key_check.c	\
@@ -17,7 +17,12 @@ SRC		=	main.c		\
 			sprite.c\
 			render_wall_1.c\
 			render_wall_2.c\
-			render_spr.c
+			render_spr.c\
+			screen.c\
+			parser_file_dop.c\
+			mlx_and_msg.c\
+			check_and_init.c\
+			texture_init.c
 
 CC		= gcc
 
@@ -40,7 +45,7 @@ all: $(OUT_DIR) $(LIBFT) $(FT_PRINTF) $(NAME)
 obj/%.o:	src/%.c
 	@$(CC) -g -Wall -Wextra -Werror -Imlx -c $< -o $@
 
-$(NAME):	$(OBJ) $(LIBFT) $(FT_PRINTF)
+$(NAME):	$(OBJ) $(LIBFT) $(FT_PRINTF) $(HEADER)
 	@$(CC) $(OBJ) mlx/libmlx.a $(INCLUDE) $(LIBFT) $(FT_PRINTF) -framework OpenGL -framework AppKit -o $(NAME)
 	@echo '$(cgreen)Good compile!'
 

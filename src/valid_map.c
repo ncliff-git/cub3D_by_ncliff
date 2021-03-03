@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:50:39 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 21:15:06 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 static int	close_map(t_data *data, char i, char s)
 {

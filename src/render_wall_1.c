@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:56:47 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 14:27:15 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 21:17:30 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 void	ray_math(t_data *data, t_player *pl, int x)
 {
@@ -66,16 +66,16 @@ void	textur_sizes(t_player *pl, t_img *tex)
 
 void	wall_side_2(t_data *data)
 {
-	if (SIDE == 0)
+	if (data->player.side == 0)
 	{
-		if (STEP_X > 0)
+		if (data->player.stepx > 0)
 			textur_sizes(&data->player, &data->so_tx);
 		else
 			textur_sizes(&data->player, &data->no_tx);
 	}
 	else
 	{
-		if (STEP_Y > 0)
+		if (data->player.stepy > 0)
 			textur_sizes(&data->player, &data->ea_tx);
 		else
 			textur_sizes(&data->player, &data->we_tx);

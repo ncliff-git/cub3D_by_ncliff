@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 21:03:35 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 18:07:11 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 21:17:24 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 static int	pars_r2(int *data, char *line)
 {

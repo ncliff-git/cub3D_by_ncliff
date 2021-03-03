@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 19:00:05 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 18:12:28 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 static	int	atoi_iter_mini(int *data, int i, int dp, char *line)
 {

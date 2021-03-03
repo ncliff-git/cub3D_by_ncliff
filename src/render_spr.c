@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:58:50 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/27 15:44:27 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 void	sort_sp(t_data *data)
 {
@@ -19,22 +19,22 @@ void	sort_sp(t_data *data)
 	i = 0;
 	while (i < data->spr_sum)
 	{
-		data->spriteOrder[i] = i;
-		data->spriteDistance[i] = ((data->player.posx
+		data->spriteorder[i] = i;
+		data->spritedistance[i] = ((data->player.posx
 		- get_spr(data->spr, i, 'x'))
 		* (data->player.posx - get_spr(data->spr, i, 'x'))
 		+ (data->player.posy - get_spr(data->spr, i, 'y'))
 		* (data->player.posy - get_spr(data->spr, i, 'y')));
 		i++;
 	}
-	sort_sprites(data->spriteOrder, data->spriteDistance, data->spr_sum);
+	sort_sprites(data->spriteorder, data->spritedistance, data->spr_sum);
 	return ;
 }
 
 void	sp_math(t_data *data, t_player *pl, int i)
 {
-	pl->sprite_x = get_spr(data->spr, data->spriteOrder[i], 'x') - pl->posx;
-	pl->sprite_y = get_spr(data->spr, data->spriteOrder[i], 'y') - pl->posy;
+	pl->sprite_x = get_spr(data->spr, data->spriteorder[i], 'x') - pl->posx;
+	pl->sprite_y = get_spr(data->spr, data->spriteorder[i], 'y') - pl->posy;
 	pl->inv_det = 1.0 / (pl->planx * pl->diry - pl->dirx * pl->plany);
 	pl->tran_x = pl->inv_det * (pl->diry
 	* pl->sprite_x - pl->dirx * pl->sprite_y);

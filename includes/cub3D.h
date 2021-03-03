@@ -6,13 +6,12 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/28 18:00:51 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 21:17:22 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
 # include <stdlib.h>
 # include <mlx.h>
 # include <math.h>
@@ -32,106 +31,9 @@
 # define TEX_WH 256
 # define TEX_HEIGHT 256
 
-# define D_MLX data->mlx
-
-# define NO_IMG data->no_tx.img
-# define NO_ADDR data->no_tx.addr
-# define NO_FL data->file.no_ture
-# define NO_X data->no_tx.sp_x
-# define NO_Y data->no_tx.sp_y
-# define NO_PX_BIT data->no_tx.bits_per_pixel
-# define NO_LINE_L data->no_tx.line_length
-# define NO_ENDIAN data->no_tx.endian
-
-# define SO_IMG data->so_tx.img
-# define SO_ADDR data->so_tx.addr
-# define SO_FL data->file.so_ture
-# define SO_X data->so_tx.sp_x
-# define SO_Y data->so_tx.sp_y
-# define SO_PX_BIT data->so_tx.bits_per_pixel
-# define SO_LINE_L data->so_tx.line_length
-# define SO_ENDIAN data->so_tx.endian
-
-# define WE_IMG data->we_tx.img
-# define WE_ADDR data->we_tx.addr
-# define WE_FL data->file.we_ture
-# define WE_X data->we_tx.sp_x
-# define WE_Y data->we_tx.sp_y
-# define WE_PX_BIT data->we_tx.bits_per_pixel
-# define WE_LINE_L data->we_tx.line_length
-# define WE_ENDIAN data->we_tx.endian
-
-# define EA_IMG data->ea_tx.img
-# define EA_ADDR data->ea_tx.addr
-# define EA_FL data->file.ea_ture
-# define EA_X data->ea_tx.sp_x
-# define EA_Y data->ea_tx.sp_y
-# define EA_PX_BIT data->ea_tx.bits_per_pixel
-# define EA_LINE_L data->ea_tx.line_length
-# define EA_ENDIAN data->ea_tx.endian
-
-# define S_IMG data->s_tx.img
-# define S_ADDR data->s_tx.addr
-# define S_FL data->file.s_ture
-# define S_X data->s_tx.sp_x
-# define S_Y data->s_tx.sp_y
-# define S_PX_BIT data->s_tx.bits_per_pixel
-# define S_LINE_L data->s_tx.line_length
-# define S_ENDIAN data->s_tx.endian
-
-# define PL_H data->player.h
-# define PL_W data->player.w
-# define F_CL data->file.f
-# define C_CL data->file.c
-# define RES_X data->file.resx
-# define RES_Y data->file.resy
-# define P_CAM data->player.cam
-# define PLAN_X data->player.planx
-# define PLAN_Y data->player.plany
-# define DIR_X data->player.dirx
-# define DIR_Y data->player.diry
-# define P_MAPX data->player.mapx
-# define P_MAPY data->player.mapy
-# define R_DIRX data->player.rdirx
-# define R_DIRY data->player.rdiry
-# define D_DIST_X data->player.ddistx
-# define D_DIST_Y data->player.ddisty
-# define STEP_X data->player.stepx
-# define STEP_Y data->player.stepy
-# define S_DIST_X data->player.sdistx
-# define S_DIST_Y data->player.sdisty
-# define POS_X data->player.posx
-# define POS_Y data->player.posy
-# define PW_DIST data->player.pwdist
-# define SIDE data->player.side
-# define HIT data->player.hit
-# define LINE_H data->player.lineh
-# define DR_START data->player.drawstart
-# define DR_END data->player.drawend
-
-# define SP_X data->player.sprite_x
-# define SP_Y data->player.sprite_y
-# define INV_DET data->player.inv_det
-# define TRAN_X data->player.tran_x
-# define TRAN_Y data->player.tran_y
-# define SPR_X data->player.spr_scr_x
-# define SPR_HT data->player.spr_height
-# define SPR_WT data->player.spr_widht
-# define DR_SP_ND_Y_ST_Y data->player.dr_st_sp_y
-# define DR_SP_ND_Y data->player.dr_nd_sp_y
-# define DR_SP_ND_Y_ST_X data->player.dr_st_sp_x
-# define DR_SP_ND_Y_ND_X data->player.dr_nd_sp_x
-# define SP_TX data->player.sp_tex_x
-# define SP_TY data->player.sp_tex_y
-# define SP_CR data->player.color_sp
-# define WALL_X data->player.wall_x
-# define TEX_X data->player.tex_x
-# define TEX_Y data->player.tex_y
-# define STEP data->player.step
-# define TEX_POS data->player.tex_pos
-# define SPR_ORD data->spriteOrder
-# define SPR_DST data->spriteDistance
-
+/*
+** структура холстов
+*/
 typedef struct		s_img
 {
 	void			*img;
@@ -143,6 +45,9 @@ typedef struct		s_img
 	int				sp_y;
 }					t_img;
 
+/*
+** флаги нажатия кнопок для возможности зажать несколько кнопок
+*/
 typedef struct		s_flag
 {
 	int				btn_up;
@@ -165,7 +70,24 @@ typedef struct		s_flag
 ** pwdist - длина луча.
 ** stepx, stepy - направление шага
 ** hit - наличие стены.
-** side - сторона.
+** side - сторона стены.
+** lineh - высота стены.
+** drawstart, drawend - начало и конец рисования.
+** prot - направление игрока.
+** wall_x -
+** tex_x, tex_y -
+** tex_pos -
+** step -
+** sprite_x, sprite_y -
+** inv_det -
+** tran_x, tran_y -
+** spr_scr_x -
+** spr_height -
+** spr_widht -
+** dr_st_sp_y, dr_nd_sp_y -
+** dr_st_sp_x, dr_nd_sp_x -
+** sp_tex_x, sp_tex_y -
+** color_sp -
 */
 typedef struct		s_player
 {
@@ -197,9 +119,9 @@ typedef struct		s_player
 	float			prot;
 	double			wall_x;
 	int				tex_x;
-	double			step;
-	double			tex_pos;
 	int				tex_y;
+	double			tex_pos;
+	double			step;
 	double			sprite_x;
 	double			sprite_y;
 	double			inv_det;
@@ -217,6 +139,31 @@ typedef struct		s_player
 	int				color_sp;
 }					t_player;
 
+/*
+** fd -
+** *file -
+** resx -
+** resy -
+** *no_ture -
+** *so_ture -
+** *we_ture -
+** *ea_ture -
+** *s_ture -
+** f -
+** c -
+** szx -
+** szy -
+** stpos -
+** **map -
+** res_ch -
+** c_ch -
+** f_ch -
+** we_ch -
+** ea_ch -
+** no_ch -
+** so_ch -
+** s_ch -
+*/
 typedef struct		s_map
 {
 	int				fd;
@@ -244,6 +191,12 @@ typedef struct		s_map
 	int				s_ch;
 }					t_map;
 
+/*
+** posx -
+** posy -
+** dist -
+** *next -
+*/
 typedef struct		s_spr
 {
 	float			posx;
@@ -252,6 +205,27 @@ typedef struct		s_spr
 	struct s_spr	*next;
 }					t_spr;
 
+/*
+** *mlx -
+** *mlx_win -
+** img_mmp -
+** img_mp -
+** img_pl -
+** no_tx -
+** so_tx -
+** we_tx -
+** ea_tx -
+** s_tx -
+** *spr -
+** spr_sum -
+** *spriteorder -
+** *spritedistance -
+** player -
+** flags -
+** file -
+** save -
+** map_check -
+*/
 typedef struct		s_data
 {
 	void			*mlx;
@@ -266,24 +240,23 @@ typedef struct		s_data
 	t_img			s_tx;
 	t_spr			*spr;
 	int				spr_sum;
-	int				*spriteOrder;
-	double			*spriteDistance;
+	int				*spriteorder;
+	double			*spritedistance;
 	t_player		player;
 	t_flag			flags;
 	t_map			file;
+	int				save;
 	int				map_check;
 }					t_data;
 
-/////////////////////////////////////////////////
-
-
+/*
+** структура для сортировуи спрайтов
+*/
 typedef struct		s_pair
 {
-	double	first;
-	int		second;
+	double			first;
+	int				second;
 }					t_pair;
-
-/////////////////////////////////////////////////
 
 int					mlx_texture(t_data *data);
 int					create_trgb(int t, int r, int g, int b);
@@ -304,28 +277,24 @@ int					pars_map(t_data *data);
 int					valid_map(t_data *data);
 int					pars_texture(char **texture, char s, char *line);
 int					pars_color(int *data, char *line);
-
 t_spr				*sprlstnew(float posx, float posy, double dist);
 void				sprlstadd_back(t_spr **lst, t_spr *new);
 int					malloc_spr(t_data *data);
 double				get_spr(t_spr *data, int i, int ch);
-
-/////////////////////////////////////////////////
-
+int					rendersky(t_data *data);
+void				ray_math(t_data *data, t_player *pl, int x);
+void				dda_math(t_data *data, t_player *pl);
+void				wall_side(t_data *data, t_player *pl);
+void				render_wall(t_data *data, int x);
+void				sort_sp(t_data *data);
+void				sp_math(t_data *data, t_player *pl, int i);
+void				render_sp(t_data *data, t_player *pl, double **z_b);
+void				error_msg_exit(char *str);
+void				screenshot(t_data *all);
+void				valid_param_2(t_data *data, char ch, char ch2);
+int					pars1_dop(t_data *data, t_list *first, int res);
+int					exit_funk(t_data *img);
+void				init_test(t_data *data, int argc, char **argv);
 void				sort_sprites(int *order, double *dist, int amount);
-
-/////////////////////////////////////////////////
-
-int rendersky(t_data *data);
-void ray_math(t_data *data, t_player *pl, int x);
-void dda_math(t_data *data, t_player *pl);
-void wall_side(t_data *data, t_player *pl);
-void render_wall(t_data *data, int x);
-
-void sort_sp(t_data *data);
-void sp_math(t_data *data, t_player *pl, int i);
-void render_sp(t_data *data, t_player *pl, double **z_b);
-
-void error_msg_exit(char *str);
 
 #endif

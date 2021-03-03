@@ -6,11 +6,11 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 18:24:43 by ncliff            #+#    #+#             */
-/*   Updated: 2021/02/22 18:25:57 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 //--------TEST---------//
 //--------TEST---------//
@@ -152,9 +152,9 @@ int mlx_texture(t_data *data)
 	int height;
 
 	write(1, "1\n", 2);
-	if (!(NO_IMG = mlx_xpm_file_to_image(D_MLX, NO_FL, &width, &height)))
+	if (!(data->no_tx.img = mlx_xpm_file_to_image(D_MLX, NO_FL, &width, &height)))
 		return (-1);
-	NO_ADDR = mlx_get_data_addr(NO_IMG, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);	
+	NO_ADDR = mlx_get_data_addr(data->no_tx.img, &data->no_tx.bits_per_pixel, &data->no_tx.line_length, &data->no_tx.endian);	
 	if (!(SO_IMG = mlx_xpm_file_to_image(D_MLX, SO_FL, &width, &height)))
 		return (-1);
 	SO_ADDR = mlx_get_data_addr(SO_IMG, &data->so_tx.bits_per_pixel, &data->so_tx.line_length, &data->so_tx.endian);		
@@ -278,7 +278,7 @@ int main(int argc, char **argv)
 	}
 
 	data.mlx = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");
+	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3d");
 	data.img_mp.img = mlx_new_image(data.mlx, data.file.resx, data.file.resy);
 	data.img_mp.addr = mlx_get_data_addr(data.img_mp.img, &data.img_mp.bits_per_pixel, &data.img_mp.line_length, &data.img_mp.endian);
 
@@ -292,7 +292,7 @@ int main(int argc, char **argv)
 
 
 
-#include "../includes/cub3D.h"
+#include "../includes/cub3d.h"
 
 //--------TEST---------//
 //--------TEST---------//
@@ -523,7 +523,7 @@ int main(int argc, char **argv)
 	}
 
 	data.mlx = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3D");
+	data.mlx_win = mlx_new_window(data.mlx, data.file.resx + 1, data.file.resy + 1, "cub3d");
 	data.img_mp.img = mlx_new_image(data.mlx, data.file.resx, data.file.resy);
 	data.img_mp.addr = mlx_get_data_addr(data.img_mp.img, &data.img_mp.bits_per_pixel, &data.img_mp.line_length, &data.img_mp.endian);
 
