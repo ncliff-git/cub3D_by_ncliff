@@ -1,0 +1,16 @@
+R 1600 800 
+NO ./Texture/1567106726159459734.xpm
+SO ./Texture/MS.xpm
+WE /Users/ncliff/Desktop/ncliff/cub3D/Texture/JR.xpm
+EA        ./Texture/KR.xpm
+                                S  ./Texture/STAS.xpm
+C 124, 32, 1
+F 11,23, 23
+
+1111111111111
+1000000000001
+1000202020001
+100020N020001
+1000202020001
+1000000000001
+1111111111111

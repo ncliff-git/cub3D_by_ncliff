@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:58:50 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/04 18:53:16 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	sort_sp(t_data *data)
 	{
 		data->spriteorder[i] = i;
 		data->spritedistance[i] = ((data->player.posx
-		- get_spr(data->spr, i, 'x'))
-		* (data->player.posx - get_spr(data->spr, i, 'x'))
-		+ (data->player.posy - get_spr(data->spr, i, 'y'))
-		* (data->player.posy - get_spr(data->spr, i, 'y')));
+		- data->spr[i].posy)
+		* (data->player.posx - data->spr[i].posy)
+		+ (data->player.posy - data->spr[i].posx)
+		* (data->player.posy - data->spr[i].posx));
 		i++;
 	}
 	sort_sprites(data->spriteorder, data->spritedistance, data->spr_sum);
@@ -33,8 +33,8 @@ void	sort_sp(t_data *data)
 
 void	sp_math(t_data *data, t_player *pl, int i)
 {
-	pl->sprite_x = get_spr(data->spr, data->spriteorder[i], 'x') - pl->posx;
-	pl->sprite_y = get_spr(data->spr, data->spriteorder[i], 'y') - pl->posy;
+	pl->sprite_x = data->spr[data->spriteorder[i]].posy - pl->posx;
+	pl->sprite_y = data->spr[data->spriteorder[i]].posx - pl->posy;
 	pl->inv_det = 1.0 / (pl->planx * pl->diry - pl->dirx * pl->plany);
 	pl->tran_x = pl->inv_det * (pl->diry
 	* pl->sprite_x - pl->dirx * pl->sprite_y);

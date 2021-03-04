@@ -22,7 +22,8 @@ SRC		=	main.c		\
 			parser_file_dop.c\
 			mlx_and_msg.c\
 			check_and_init.c\
-			texture_init.c
+			texture_init.c\
+			sprite2.c
 
 CC		= gcc
 

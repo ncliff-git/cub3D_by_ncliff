@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/03 21:17:22 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/04 19:03:38 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,5 +296,6 @@ int					pars1_dop(t_data *data, t_list *first, int res);
 int					exit_funk(t_data *img);
 void				init_test(t_data *data, int argc, char **argv);
 void				sort_sprites(int *order, double *dist, int amount);
+void				sort_order(t_pair *orders, int amount);
 
 #endif
