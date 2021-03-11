@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 21:03:35 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/03 21:17:24 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:35:33 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ static int	pars_r2(int *data, char *line)
 	return (i);
 }
 
+static int	pars_r12(t_data *data, int h, int w)
+{
+	(data->file.resx == 0 || data->file.resy == 0) ? error_msg_exit("Res") : 0;
+	if (data->save == 1)
+		return (data->file.res_ch = 1);
+	(data->file.resx > w) ? data->file.resx = w : 0;
+	(data->file.resy > h) ? data->file.resy = h : 0;
+	data->file.res_ch = 1;
+	return (1);
+}
+
 int			pars_res(t_data *data, char *line)
 {
 	int i;
@@ -60,9 +71,6 @@ int			pars_res(t_data *data, char *line)
 			error_msg_exit("Res");
 		i++;
 	}
-	(data->file.resx == 0 || data->file.resy == 0) ? error_msg_exit("Res") : 0;
-	(data->file.resx > w) ? data->file.resx = w : 0;
-	(data->file.resy > h) ? data->file.resy = h : 0;
-	data->file.res_ch = 1;
+	pars_r12(data, h, w);
 	return (1);
 }

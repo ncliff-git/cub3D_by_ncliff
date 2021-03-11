@@ -1,14 +1,14 @@
-R 1280 720
+R  1200 800
+
 NO Texture/TreeTexture/WALL_1.xpm
+
 SO Texture/TreeTexture/WALL_2.xpm
 WE Texture/TreeTexture/WALL_3.xpm
 EA Texture/TreeTexture/WALL_4.xpm
-S  Texture/TreeTexture/SPRITE.xpm
- 
-F 102,178,255   
-C 0,102,51	
+S Texture/TreeTexture/SPRITE.xpm
 
-
+C 0000000 ,178, 0
+F 0 ,102 ,51
 
                                                         111111
                                                         11020111111111
@@ -122,7 +122,7 @@ C 0,102,51
 102020200020202011111
 100000000000000010001
 100020002002000010201
-100000000000000010001
-102000002000020000N01
+100000000000S00100011
+10200000200002000001
 100000000000000011111
-11111111111111111
+1111111111111111111 111   1111

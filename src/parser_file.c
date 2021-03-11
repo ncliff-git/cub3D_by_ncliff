@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:06:20 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:12:04 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	pars_1(t_data *data)
 	{
 		i = 0;
 		line = data->file.file->content;
-		while (line[i] == ' ' || line[i] == '\t')
+		while (line[i] == ' ')
 		{
 			i++;
 			if (line[i] == '\0')

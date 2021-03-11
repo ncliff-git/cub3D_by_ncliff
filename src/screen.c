@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 15:56:00 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:32:14 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void		screenshot(t_data *all)
 	int zero;
 	int size;
 
-	if ((fd = open("screen.bmp", O_CREAT | O_RDWR, 0666)) < 0)
-		error_msg_exit("Error\n in fd screenshot\n‿︵‿ヽ(°□° )ノ︵‿︵\n");
+	if ((fd = open("screen.bmp", O_CREAT | O_RDWR | O_TRUNC, 0666)) < 0)
+		error_msg_exit("screenshot");
 	size_screen = all->file.resx * all->file.resy * 4 + 54;
 	zero = 0;
 	size = all->file.resx * all->file.resy;

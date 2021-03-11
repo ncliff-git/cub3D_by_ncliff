@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:30:33 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/03 20:43:39 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:14:59 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int			pars_texture(char **texture, char s, char *line)
 	fd = 0;
 	if (s == ' ')
 		i = 1;
-	else if (*line != s || (*(line + 1) != ' ' && *(line + 1) != '\t'))
+	else if (*line != s || *(line + 1) != ' ')
 		error_msg_exit("Texture");
-	while (line[i] == ' ' || line[i] == '\t')
+	while (line[i] == ' ')
 		i++;
 	len = ft_strlen(&line[i]);
 	if (len < 5)

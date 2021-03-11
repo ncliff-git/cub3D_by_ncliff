@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:43:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/04 19:03:38 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/05 16:21:53 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdio.h>
 # include "get_next_line.h"
 # include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
 # define SPEED_MOVE 0.07
 # define SHIFT_MOVE 2
 # define CTRL_MOVE -1
@@ -31,9 +30,6 @@
 # define TEX_WH 256
 # define TEX_HEIGHT 256
 
-/*
-** структура холстов
-*/
 typedef struct		s_img
 {
 	void			*img;
@@ -45,9 +41,6 @@ typedef struct		s_img
 	int				sp_y;
 }					t_img;
 
-/*
-** флаги нажатия кнопок для возможности зажать несколько кнопок
-*/
 typedef struct		s_flag
 {
 	int				btn_up;
@@ -58,37 +51,6 @@ typedef struct		s_flag
 	float			spd;
 }					t_flag;
 
-/*
-** posx, posy - позиция игрока по x и y
-** dirx, diry - начальный вектор направления.
-** planx, plany - плоскость плана.
-** camx - камера по x направлению.
-** raydirx, raydiry - направление луча.
-** mapx, mapy - текущий квадрат карты, в которой находится луч.
-** sdistx, sdisty - начальное растояние до границ клетки.
-** ddistx, ddisty - от начальной границы до сл.гр..
-** pwdist - длина луча.
-** stepx, stepy - направление шага
-** hit - наличие стены.
-** side - сторона стены.
-** lineh - высота стены.
-** drawstart, drawend - начало и конец рисования.
-** prot - направление игрока.
-** wall_x -
-** tex_x, tex_y -
-** tex_pos -
-** step -
-** sprite_x, sprite_y -
-** inv_det -
-** tran_x, tran_y -
-** spr_scr_x -
-** spr_height -
-** spr_widht -
-** dr_st_sp_y, dr_nd_sp_y -
-** dr_st_sp_x, dr_nd_sp_x -
-** sp_tex_x, sp_tex_y -
-** color_sp -
-*/
 typedef struct		s_player
 {
 	int				h;
@@ -139,31 +101,6 @@ typedef struct		s_player
 	int				color_sp;
 }					t_player;
 
-/*
-** fd -
-** *file -
-** resx -
-** resy -
-** *no_ture -
-** *so_ture -
-** *we_ture -
-** *ea_ture -
-** *s_ture -
-** f -
-** c -
-** szx -
-** szy -
-** stpos -
-** **map -
-** res_ch -
-** c_ch -
-** f_ch -
-** we_ch -
-** ea_ch -
-** no_ch -
-** so_ch -
-** s_ch -
-*/
 typedef struct		s_map
 {
 	int				fd;
@@ -191,12 +128,6 @@ typedef struct		s_map
 	int				s_ch;
 }					t_map;
 
-/*
-** posx -
-** posy -
-** dist -
-** *next -
-*/
 typedef struct		s_spr
 {
 	float			posx;
@@ -205,27 +136,6 @@ typedef struct		s_spr
 	struct s_spr	*next;
 }					t_spr;
 
-/*
-** *mlx -
-** *mlx_win -
-** img_mmp -
-** img_mp -
-** img_pl -
-** no_tx -
-** so_tx -
-** we_tx -
-** ea_tx -
-** s_tx -
-** *spr -
-** spr_sum -
-** *spriteorder -
-** *spritedistance -
-** player -
-** flags -
-** file -
-** save -
-** map_check -
-*/
 typedef struct		s_data
 {
 	void			*mlx;
@@ -249,9 +159,6 @@ typedef struct		s_data
 	int				map_check;
 }					t_data;
 
-/*
-** структура для сортировуи спрайтов
-*/
 typedef struct		s_pair
 {
 	double			first;

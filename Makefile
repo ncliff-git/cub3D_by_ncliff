@@ -39,40 +39,40 @@ MKDIR_P	= mkdir -p
 
 LIBFT	= libft/libft.a
 
-FT_PRINTF = ft_printf/libftprintf.a
-
-all: $(OUT_DIR) $(LIBFT) $(FT_PRINTF) $(NAME)
+all: $(OUT_DIR) $(LIBFT) $(MLX_CR) $(NAME)
 
 obj/%.o:	src/%.c
 	@$(CC) -g -Wall -Wextra -Werror -Imlx -c $< -o $@
 
 $(NAME):	$(OBJ) $(LIBFT) $(FT_PRINTF) $(HEADER)
-	@$(CC) $(OBJ) mlx/libmlx.a $(INCLUDE) $(LIBFT) $(FT_PRINTF) -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(OBJ) mlx/libmlx.a $(INCLUDE) $(LIBFT) -framework OpenGL -framework AppKit -o $(NAME)
 	@echo '$(cgreen)Good compile!'
 
 $(LIBFT):
 	@cd libft && make
 	@echo '$(cgreen)Libft compile$(cwhite)'
 
-$(FT_PRINTF):
-	@cd ft_printf && make
-	@echo '$(cgreen)ft_printf compile$(cwhite)'
-
 $(OUT_DIR):
 	@$(MKDIR_P) $@
 	@echo '$(cgreen)$@ dir create$(cwhite)'
 	@echo "\033[1A"
 
+$(MLX_CR):
+	@cd mlx && make re
+
 re: fclean all
 
 clean:
 	@/bin/rm -rf $(OUT_DIR)
-	@cd libft && make fclean
+	@cd libft && make clean
 	@echo '$(ccred)$(OUT_DIR) delete$(cwhite)'
 
 fclean: clean
+	@cd libft && make fclean
 	@/bin/rm -f $(NAME)
 	@echo '$(ccred)$(NAME) file delete$(cwhite)'
+
+.PHONY: clean fclean
 
 cgreen=$(shell echo "\033[0;32m")
 ccred=$(shell echo "\033[0;31m")

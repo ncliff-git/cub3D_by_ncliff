@@ -6,7 +6,7 @@
 /*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 14:58:50 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/04 18:53:16 by ncliff           ###   ########.fr       */
+/*   Updated: 2021/03/05 14:19:25 by ncliff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	sp_math(t_data *data, t_player *pl, int i)
 	pl->dr_nd_sp_y = pl->spr_height / 2 + data->file.resy / 2;
 	(pl->dr_nd_sp_y >= data->file.resy) ?
 	(pl->dr_nd_sp_y = data->file.resy - 1) : 0;
-	pl->spr_widht = abs((int)(data->file.resy / (pl->tran_y)));
+	pl->spr_widht = abs((int)(data->file.resx / (pl->tran_y))) - 1;
 	pl->dr_st_sp_x = -pl->spr_widht / 2 + pl->spr_scr_x;
 	(pl->dr_st_sp_x < 0) ? (pl->dr_st_sp_x = 0) : 0;
 	pl->dr_nd_sp_x = pl->spr_widht / 2 + pl->spr_scr_x;
